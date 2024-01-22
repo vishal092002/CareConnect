@@ -3,10 +3,12 @@ body, html {
   margin: 0;
   font-family: Arial, sans-serif;
 }
+
 .container {
   display: flex;
   height: 100%;
 }
+
 .welcome-section {
   background-color: #1A237E; /* Dark blue background */
   color: white;
@@ -18,6 +20,7 @@ body, html {
   padding: 50px;
   box-sizing: border-box;
 }
+
 .form-section {
   flex: 1;
   display: flex;
@@ -26,17 +29,20 @@ body, html {
   padding: 50px;
   box-sizing: border-box;
 }
+
 .signup-form {
   width: 100%;
   max-width: 300px;
 }
-input[type=email], input[type=password] {
+
+input[type=email], input[type=password], input[type=text], input[type=tel] {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
 .btn {
   width: 100%;
   padding: 10px;
@@ -45,12 +51,15 @@ input[type=email], input[type=password] {
   border-radius: 4px;
   color: white;
 }
+
 .btn-create {
   background-color: #0D47A1; /* Blue background */
 }
+
 .btn-google {
   background-color: #dd4b39; /* Google button color */
 }
+
 .login-link {
   text-align: center;
   display: block;
@@ -58,4 +67,3 @@ input[type=email], input[type=password] {
   text-decoration: none;
   margin-top: 20px;
 }
-s
