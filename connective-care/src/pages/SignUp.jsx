@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { NavBar } from "../components/NavBar";
 import { Box, Button, InputLabel, TextField, Typography } from "@mui/material";
 
-const SignIn = () => {
+const SignUp = () => {
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
+    const [confirmPassword, setConfirmPassword] = useState(null);
 
-    function signIn() {
-        //sign in funciton here
+    function signUp() {
+        //sign up funciton here
     }
 
     return(
@@ -21,7 +22,7 @@ const SignIn = () => {
                 alignItems: "center",
                 justifyContent: "center"
             }}>
-                <Box className="signinBox" sx={{
+                <Box className="signupBox" sx={{
                     width: "30%",
                     height: "50%",
                     display: "flex",
@@ -32,9 +33,9 @@ const SignIn = () => {
                     backgroundColor: "#CCCCCC"
                 }}>
                     <Typography variant="h3">
-                        Sign In
+                        Sign Up
                     </Typography>
-                    <form onSubmit={signIn}>
+                    <form onSubmit={signUp}>
                         <InputLabel>
                             Username
                         </InputLabel>
@@ -48,20 +49,27 @@ const SignIn = () => {
                             type="password"
                             onChange={(e) => setPassword(e.target.value)}
                         />
+                        <InputLabel>
+                            Confirm Password
+                        </InputLabel>
+                        <TextField
+                            type="password"
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
                         <Box>
                             <Button
                                 type="submit"
                                 variant="contained"
                             >
-                                Sign In
+                                Sign Up
                             </Button>
                         </Box>
                     </form>
-                    <p>detecting input: {username} {password}</p>
+                    <p>detecting input: {username} {password} {confirmPassword}</p>
                 </Box>
             </Box>
         </div>
     )
 }
 
-export default SignIn;
+export default SignUp;
