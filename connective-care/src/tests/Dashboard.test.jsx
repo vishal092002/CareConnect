@@ -1,19 +1,19 @@
 import React from "react";
-import Home from "../pages/Home";
+import Dashboard from "../pages/Dashboard";
 import { render, screen } from "@testing-library/react";
 
-test('renders Home', () => {
-    render(<Home />);
+test('renders Dashboard', () => {
+    render(<Dashboard />);
 });
 
 test('check for navbar', () => {
-    render(<Home />);
+    render(<Dashboard />);
 
     expect(screen.getByText(/ConnectiveCare/)).toBeInTheDocument();
 });
 
 test('screen read example', () => {
-    render(<Home />);
+    render(<Dashboard />);
     
-    expect(screen.getByText(/home page/)).toBeInTheDocument();
+    expect(screen.getByText(/the landing page/)).toBeInTheDocument();
 });

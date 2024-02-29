@@ -1,20 +1,21 @@
 import React from "react";
-import SignIn from "../pages/SignIn";
+import SignUp from "../pages/SignUp";
 import { render, screen } from "@testing-library/react";
 
-test('renders SignIn', () => {
-    render(<SignIn />);
+test('renders SignUp', () => {
+    render(<SignUp />);
 });
 
 test('check for navbar', () => {
-    render(<SignIn />);
+    render(<SignUp />);
 
     expect(screen.getByText(/ConnectiveCare/)).toBeInTheDocument();
 });
 
 test('screen read example', () => {
-    render(<SignIn />);
+    render(<SignUp />);
     
     expect(screen.getByText(/Username/)).toBeInTheDocument();
-    expect(screen.getByText(/Password/)).toBeInTheDocument();
+    expect(screen.getByText("Password")).toBeInTheDocument();
+    expect(screen.getByText(/Confirm Password/)).toBeInTheDocument();
 })
