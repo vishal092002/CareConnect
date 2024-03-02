@@ -18,6 +18,17 @@ mongoose.connect()
 //routes
 app.use("/routes",userRouter)
 
+//tests to see if we can connect to the db
+app.get('/test',(req,res)=>{
+    if(mongoose.connection.readyState===1){
+        res.sendStatus(200)
+
+    } 
+    else{
+        res.sendStatus(500)
+    }
+})
+
 
 
 
