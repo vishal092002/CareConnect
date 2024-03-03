@@ -13,30 +13,38 @@ const driverSchema = new mongoose.Schema({
 
 // company db schemas
 const companySchema = new mongoose.Schema({
-    name: {
+  name: {
       type: String,
       required: true
-    },
-    registrationInfo: {
-      insurance: String,
-      businessEIN: String,
-      address: String,
-      required:true
-    },
-    account: {
+  },
+  registrationInfo: {
+      insurance: {
+          type: String,
+          required: true
+      },
+      businessEIN: {
+          type: String,
+          required: true
+      },
+      address: {
+          type: String,
+          required: true
+      }
+  },
+  account: {
       username: {
-        type: String,
-        required: true,
-        unique: true
+          type: String,
+          required: true,
+          unique: true
       },
       password: {
-        type: String,
-        required: true
+          type: String,
+          required: true
       }
-    },
-    drivers: [driverSchema],
-    // Add other company-specific fields as needed
-  });
+  },
+  drivers: [driverSchema]
+  // Add other company-specific fields as needed
+});
   
  
   
