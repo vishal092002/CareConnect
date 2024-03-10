@@ -8,15 +8,16 @@ const companyModel = require('../models/company')
 
 //create user
 router.post("/createUser", async(req,res)=>{
-    const user = req.body //data to send to db
     const {name,username,password} = req.body
-    bcrypt.hash(password,10).then((hash)=>{
-        userModel.create({
-            name:name,
-            username:username,
-            password:hash
-        })
-    })
+    if (!password) {
+      return res.status(400).json({ error: "Password is required" });
+  }
+    const hash = await bcrypt.hash(password, 10);
+    const user = await userModel.create({
+      name: name,
+      username: username,
+      password: hash
+  });
     
 
     res.json(user)

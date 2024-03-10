@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 // drivers schema for company db
 const driverSchema = new mongoose.Schema({
-    name: {
+    firstName: {
+      type: String,
+      required: true
+    },
+    lastName:{
       type: String,
       required: true
     },

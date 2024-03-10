@@ -1,15 +1,39 @@
 import React, { useState } from "react";
 import { NavBar } from "../components/NavBar";
 import { Box, Button, InputLabel, TextField, Typography } from "@mui/material";
+import { userSignup } from "../components/dbCalls";
 
 const SignUp = () => {
-
-    const [username, setUsername] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [username,setUsername] = useState(null)
+    const [password,setPassword] = useState(null)
+    const [name,setName] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null);
+    
+    //handles any change when creating the info
+    const handleUser = (event) => {
+        setUsername(event.target.value);
+        setName(event.target.value)
+      };
+    
+    const handlePassword = (event) => {
+        setPassword(event.target.value);
+    };
 
-    function signUp() {
+
+    async function signUp(e) {
+        e.preventDefault()
         //sign up funciton here
+        if (confirmPassword !== password){
+            alert("Passwords do not match")
+            return
+        }
+        try{
+            const response = await userSignup({name,username,password})
+            console.log("User has successfully signed up:",response)
+        }
+        catch(error){
+            console.log("Error signing user:",error)
+        }
     }
 
     return(
@@ -40,14 +64,14 @@ const SignUp = () => {
                             Username
                         </InputLabel>
                         <TextField
-                            onChange={(e) => setUsername(e.target.value)}
+                            onChange={handleUser}
                         />
                         <InputLabel>
                             Password
                         </InputLabel>
                         <TextField
                             type="password"
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={handlePassword}
                         />
                         <InputLabel>
                             Confirm Password
