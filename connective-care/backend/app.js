@@ -43,6 +43,8 @@ async function run() {
 run().catch(console.dir);
 
 
+// mongoose.connect(process.env.MONGODB_URI) -> using this to test for db logic for now, will delete this part once the logic above is more finalized 
+
 //routes
 app.use("/routes",userRouter)
 

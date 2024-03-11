@@ -29,10 +29,10 @@ const SignUp = () => {
         }
         try{
             const response = await userSignup({name,username,password})
-            console.log("User has successfully signed up:",response)
+            alert("User has successfully signed up")
         }
         catch(error){
-            console.log("Error signing user:",error)
+            alert("Error signing user:",error)
         }
     }
 

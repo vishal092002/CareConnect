@@ -3,7 +3,7 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 const userModel = require('../models/user')
 const companyModel = require('../models/company')
-
+const {sign} = require('jsonwebtoken')
 // For user side of database
 
 //create user
