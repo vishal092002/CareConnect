@@ -9,7 +9,8 @@ export const userSignup = async (data) =>{
         return response.data
     }
     catch(error){
-        console.log("Error creating user")
+        alert(error.response.data)
+        console.log(error.response)
         throw error
     }
 }

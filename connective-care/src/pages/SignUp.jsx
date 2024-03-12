@@ -32,7 +32,7 @@ const SignUp = () => {
             alert("User has successfully signed up")
         }
         catch(error){
-            alert("Error signing user:",error)
+            console.log(error)
         }
     }
 
