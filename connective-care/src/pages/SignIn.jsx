@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { NavBar } from "../components/NavBar";
 import { Box, Button, InputLabel, TextField, Typography } from "@mui/material";
+import { userLogin } from "../components/dbCalls";
 
 const SignIn = () => {
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
 
-    function signIn() {
+    async function signIn(e) {
+        e.preventDefault()
         //sign in funciton here
+        const response = await userLogin({username,password})
+
     }
 
     return(
