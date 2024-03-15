@@ -13,7 +13,12 @@ export function NavBar() {
                         <Typography color="#FFFFFF">ConnectiveCare</Typography>
                     </Button>
                     <Button
-                        href="../Dashboard"
+                        href="../UserDashboard"
+                    >
+                        <Typography color="#FFFFFF">Dashboard</Typography>
+                    </Button>
+                    <Button
+                        href="../ProviderDashboard"
                     >
                         <Typography color="#FFFFFF">Dashboard</Typography>
                     </Button>
