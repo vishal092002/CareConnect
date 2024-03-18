@@ -28,14 +28,4 @@ export const userLogin = async(data) =>{
     })
 }
 
-// For company
-export const companySignup = async (data) =>{
-    try{
-        const response = await axios.post(`${baseURL}/routes/createCompany`,data)
-        return response.data
-    }
-    catch(error){
-        console.log("Error creating company user")
-        throw error
-    }
-}
+// For Driver
