@@ -8,6 +8,9 @@ const SignUp = () => {
     const [password,setPassword] = useState(null)
     const [name,setName] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null);
+
+    const passwordRegex = /(?=.+[a-z])(?=.+[A-Z])(?=.+[0-9])(?=.+[!@#$%^&*])/
+    const minimumPasswordLength = 8
     
     //handles any change when creating the info
     const handleUser = (event) => {
@@ -23,6 +26,19 @@ const SignUp = () => {
     async function signUp(e) {
         e.preventDefault()
         //sign up funciton here
+        // password security rules
+        // 1. at least 8 characters
+        // 2. at least 1 uppercase and at least 1 lowercase letter
+        // 3. at least 1 number
+        // 4. at least one special character
+        if (password.length < minimumPasswordLength) {
+            alert("Password must be at least 8 characters")
+            return
+        }
+        if (!passwordRegex.test(password)) {
+            alert("Password must meet the criteria:\n1. Contains at least 1 uppercase letter\n2. Contains at least 1 lowercase letter\n3. Contains at least 1 number\n4. Contains at least 1 special characters")
+            return
+        }
         if (confirmPassword !== password){
             alert("Passwords do not match")
             return
