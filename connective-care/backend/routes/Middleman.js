@@ -13,13 +13,13 @@ dotenv.config()
 
 // Database Names, change the names to what the appropriate db names should be
 const userDb= 'test'; 
-const companyDb = 'test2' 
+const providerDb = 'test2' 
 const driverDb = 'test3'
 const AideDb = 'test4'
 
 // collections, change the names to what the appropriate collection names should be
 const userCollection = 'users' 
-const companyCollection = 'companies' 
+const providerCollection = 'companies' 
 const driverCollection = 'drivers'
 const AideCollection = 'aides'
 
@@ -49,7 +49,7 @@ async function connection(dbName) {
 
 //create user
 router.post("/createUser", async(req,res)=>{
-    const {name,username,password} = req.body
+    const {username,password} = req.body
     if (!password) {
       return res.status(400).json({ error: "Password is required" });
     }
@@ -69,7 +69,6 @@ router.post("/createUser", async(req,res)=>{
 
       const result = await Collection.insertOne( 
         {
-          name: name,
           username: username,
           password: hash
         }
@@ -112,24 +111,19 @@ router.post("/userLogin",async(req,res)=>{
 })
 
 //=============================================================================================================================================================
-//================= For company side of database===============================================================================================================
+//================= For provider side of database===============================================================================================================
 //=============================================================================================================================================================
 
-// create company 
-router.post("/createCompany",async(req,res)=>{
-  const company = req.body
-  const {name,username,password,registrationInfo} = req.body
+// create provider
+router.post("/createProvider",async(req,res)=>{
+  const {username,password} = req.body
   bcrypt.hash(password,10).then(async (hash)=>{
-    const db = await connection(companyDb)
+    const db = await connection(providerDb)
     try{
-      const Collection = db.collection(companyCollection)
+      const Collection = db.collection(providerCollection)
       const result = await Collection.insertOne({
-        name:name,
-        registrationInfo:registrationInfo,
-        account:{
-          username:username,
-          password:hash
-        }
+        username: username,
+        password: hash
       })
       res.json(result)
 
@@ -147,19 +141,19 @@ router.post("/createCompany",async(req,res)=>{
  
 })
 
-// Company login
-router.post("/companyLogin", async (req, res) => {
+// provider login
+router.post("/providerLogin", async (req, res) => {
   const { username, password } = req.body;
-  const db = await collection(companyDb)
+  const db = await collection(providerDb)
 
   try{
-    const Collection = db.collection(companyCollection)
+    const Collection = db.collection(providerCollection)
 
-    const company = await Collection.findOne({'account.username':username})
+    const provider = await Collection.findOne({username:username})
 
 
-    if (company) {
-        bcrypt.compare(password, company.account.password).then((same) => {
+    if (provider) {
+        bcrypt.compare(password, provider.account.password).then((same) => {
             if (!same) {
                 return res.json({ error: "Incorrect password" });
             }
@@ -168,7 +162,7 @@ router.post("/companyLogin", async (req, res) => {
             return res.json(Token);
         });
     } else {
-        return res.json({ error: "Company Username Does Not Exist" });
+        return res.json({ error: "provider Username Does Not Exist" });
     }
 
   }
@@ -187,7 +181,7 @@ router.post("/companyLogin", async (req, res) => {
 
 //create driver
 router.post("/createDriver", async(req,res)=>{
-  const {firstName,lastName,company,driverID,picture} = req.body
+  const {firstName,lastName,driverID,picture,address,city,state} = req.body
   const db = await(connection(driverDb))
 
   try{
@@ -199,9 +193,12 @@ router.post("/createDriver", async(req,res)=>{
     const result = await Collection.insertOne({
       firstName:firstName,
       lastName:lastName,
-      company:company,
       driverID:driverID,
-      picture:picture
+      picture:picture,
+      address:address,
+      city:city,
+      state:state
+
     })
     res.json(result)
   }
@@ -243,7 +240,7 @@ router.get("/getDriver/:driverId", async(req, res) => {
 
 //create driver Aide
 router.post("/createDriverAide", async(req,res)=>{
-  const {firstName,lastName,company,driverID,picture} = req.body
+  const {firstName,lastName,driverID,picture,address,city,state} = req.body
   const db = await(connection(AideDb))
 
   try{
@@ -255,9 +252,11 @@ router.post("/createDriverAide", async(req,res)=>{
     const result = await Collection.insertOne({
       firstName:firstName,
       lastName:lastName,
-      company:company,
       driverID:driverID,
-      picture:picture
+      picture:picture,
+      address:address,
+      city:city,
+      state:state
     })
     res.json(result)
   }

@@ -7,7 +7,6 @@ import { userSignup } from "../components/dbCalls";
 const SignUp = () => {
     const [username,setUsername] = useState(null)
     const [password,setPassword] = useState(null)
-    const [name,setName] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null);
 
     const passwordRegex = /(?=.+[a-z])(?=.+[A-Z])(?=.+[0-9])(?=.+[!@#$%^&*])/
@@ -16,7 +15,6 @@ const SignUp = () => {
     //handles any change when creating the info
     const handleUser = (event) => {
         setUsername(event.target.value);
-        setName(event.target.value)
       };
     
     const handlePassword = (event) => {
@@ -45,7 +43,7 @@ const SignUp = () => {
             return
         }
         try{
-            const response = await userSignup({name,username,password})
+            const response = await userSignup({username,password})
             alert("User has successfully signed up")
         }
         catch(error){
