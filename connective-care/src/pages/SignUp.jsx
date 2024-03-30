@@ -96,79 +96,90 @@ const SignUp = () => {
                     color: "#000000",
                     backgroundColor: "#CCCCCC"
                 }}>
-                    <Typography variant="h3">
-                        Sign Up
-                    </Typography>
-                    <Box>
-                        <Tabs value={tabValue} onChange={handleTabChange}>
-                            <Tab label="User" {...tabProps(0)}/>
-                            <Tab label="Provider" {...tabProps(1)}/>
-                        </Tabs>
+                    <Box className="signupContent" sx={{
+                        width: "100%",
+                        height: "flex",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "#000000",
+                        backgroundColor: "#CCCCCC"
+                    }}>
+                        <Typography variant="h3">
+                            Sign Up
+                        </Typography>
+                        <Box>
+                            <Tabs value={tabValue} onChange={handleTabChange}>
+                                <Tab label="User" {...tabProps(0)}/>
+                                <Tab label="Provider" {...tabProps(1)}/>
+                            </Tabs>
+                        </Box>
+                        <TabPanel value={tabValue} index={0}>
+                            <form onSubmit={userSubmit}>
+                                <InputLabel>
+                                    Username
+                                </InputLabel>
+                                <TextField
+                                    onChange={handleUser}
+                                />
+                                <InputLabel>
+                                    Password
+                                </InputLabel>
+                                <TextField
+                                    type="password"
+                                    onChange={handlePassword}
+                                />
+                                <InputLabel>
+                                    Confirm Password
+                                </InputLabel>
+                                <TextField
+                                    type="password"
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                <Box>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                    >
+                                        Sign Up
+                                    </Button>
+                                </Box>
+                            </form>
+                        </TabPanel>
+                        <TabPanel value={tabValue} index={1}>
+                            <form onSubmit={providerSubmit}>
+                                <InputLabel>
+                                    Username
+                                </InputLabel>
+                                <TextField
+                                    onChange={handleUser}
+                                />
+                                <InputLabel>
+                                    Password
+                                </InputLabel>
+                                <TextField
+                                    type="password"
+                                    onChange={handlePassword}
+                                />
+                                <InputLabel>
+                                    Confirm Password
+                                </InputLabel>
+                                <TextField
+                                    type="password"
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                <Box>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                    >
+                                        Sign Up
+                                    </Button>
+                                </Box>
+                            </form>
+                        </TabPanel>
                     </Box>
-                    <TabPanel value={tabValue} index={0}>
-                        <form onSubmit={userSubmit}>
-                            <InputLabel>
-                                Username
-                            </InputLabel>
-                            <TextField
-                                onChange={handleUser}
-                            />
-                            <InputLabel>
-                                Password
-                            </InputLabel>
-                            <TextField
-                                type="password"
-                                onChange={handlePassword}
-                            />
-                            <InputLabel>
-                                Confirm Password
-                            </InputLabel>
-                            <TextField
-                                type="password"
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                            />
-                            <Box>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                >
-                                    Sign Up
-                                </Button>
-                            </Box>
-                        </form>
-                    </TabPanel>
-                    <TabPanel value={tabValue} index={1}>
-                        <form onSubmit={providerSubmit}>
-                            <InputLabel>
-                                Username
-                            </InputLabel>
-                            <TextField
-                                onChange={handleUser}
-                            />
-                            <InputLabel>
-                                Password
-                            </InputLabel>
-                            <TextField
-                                type="password"
-                                onChange={handlePassword}
-                            />
-                            <InputLabel>
-                                Confirm Password
-                            </InputLabel>
-                            <TextField
-                                type="password"
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                            />
-                            <Box>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                >
-                                    Sign Up
-                                </Button>
-                            </Box>
-                        </form>
-                    </TabPanel>
                 </Box>
             </Box>
         </div>

@@ -29,9 +29,6 @@ const UserDashboard = () => {
     return(
         <div>
             <NavBar />
-            <p>This will be the landing page after a user is signed in.</p>
-            <p>For now, this can be a place to test functionality like displaying mapping data.</p>
-
             <Box className="boundingBox" sx={{
                 width: "100%",
                 height: "100vh",
@@ -39,7 +36,7 @@ const UserDashboard = () => {
                 alignItems: "center",
                 justifyContent: "center"
             }}>
-                <Box className="signinBox" sx={{
+                <Box className="addressBox" sx={{
                     width: "30%",
                     height: "50%",
                     display: "flex",
@@ -49,37 +46,48 @@ const UserDashboard = () => {
                     color: "#000000",
                     backgroundColor: "#CCCCCC"
                 }}>
-                    <Typography variant="h3">
-                        Update Address
-                    </Typography>
-                    <form onSubmit={updateAddress}>
-                        <InputLabel>
-                            Address
-                        </InputLabel>
-                        <TextField
-                            onChange={(e) => setAddressInput(e.target.value)}
-                        />
-                        <InputLabel>
-                            City
-                        </InputLabel>
-                        <TextField
-                            onChange={(e) => setCityInput(e.target.value)}
-                        />
-                        <InputLabel>
-                            State
-                        </InputLabel>
-                        <TextField
-                            onChange={(e) => setStateInput(e.target.value)}
-                        />
-                        <Box>
-                            <Button
-                                type="submit"
-                                variant="contained"
-                            >
-                                Update
-                            </Button>
-                        </Box>
-                    </form>
+                    <Box className="addressContent" sx={{
+                        width: "100%",
+                        height: "flex",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "#000000",
+                        backgroundColor: "#CCCCCC"
+                    }}>
+                        <Typography variant="h3">
+                            Update Address
+                        </Typography>
+                        <form onSubmit={updateAddress}>
+                            <InputLabel>
+                                Address
+                            </InputLabel>
+                            <TextField
+                                onChange={(e) => setAddressInput(e.target.value)}
+                            />
+                            <InputLabel>
+                                City
+                            </InputLabel>
+                            <TextField
+                                onChange={(e) => setCityInput(e.target.value)}
+                            />
+                            <InputLabel>
+                                State
+                            </InputLabel>
+                            <TextField
+                                onChange={(e) => setStateInput(e.target.value)}
+                            />
+                            <Box>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                >
+                                    Update
+                                </Button>
+                            </Box>
+                        </form>
+                    </Box>
                 </Box>
             </Box>
 

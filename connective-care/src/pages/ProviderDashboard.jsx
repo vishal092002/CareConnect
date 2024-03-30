@@ -71,8 +71,6 @@ const ProviderDashboard = () => {
     return(
         <div>
             <NavBar />
-            <p>This will be the landing page after a provider is signed in.</p>
-            <p>It will allow them to register new drivers associated with them.</p>
             <Box className="boundingBox" sx={{
                 width: "100%",
                 height: "100vh",
@@ -89,132 +87,142 @@ const ProviderDashboard = () => {
                     color: "#000000",
                     backgroundColor: "#CCCCCC"
                 }}>
-                    <TabPanel value={tabValue} index={0}>
-                        <Typography variant="h3">
-                                Register Driver
-                        </Typography>
-                    </TabPanel>
-                    <TabPanel value={tabValue} index={1}>
-                        <Typography variant="h3">
-                                Register Driver Aid
-                        </Typography>
-                    </TabPanel>
-                    <Box>
-                        <Tabs value={tabValue} onChange={handleTabChange}>
-                            <Tab label="Driver" {...tabProps(0)}/>
-                            <Tab label="Driver Aid" {...tabProps(1)}/>
-                        </Tabs>
-                    </Box>
-                    <TabPanel value={tabValue} index={0}>
-                        <form onSubmit={driverSubmit}>
-                            <InputLabel>
-                                First Name
-                            </InputLabel>
-                            <TextField
-                            onChange={(e) => setFirstName(e.target.value)}
-                            />
-                            <InputLabel>
-                                Last Name
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setLastName(e.target.value)}
-                            />
-                            <InputLabel>
-                                Driver ID Number
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setDriverID(e.target.value)}
-                            />
-                            {/*are we still planning on adding photos? we need to find a database solution to storing photos if we are*/}
-                            <InputLabel>
-                                Driver Photo
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setDriverPhoto(e.target.value)}
-                            />
-                            <InputLabel>
-                                Address
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setAddress(e.target.value)}
-                            />
-                            <InputLabel>
-                                City
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setCity(e.target.value)}
-                            />
-                            <InputLabel>
-                                State
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setState(e.target.value)}
-                            />
-                            <Box>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                >
+                    <Box className="driverFormContent" sx={{
+                        width: "100%",
+                        height: "flex",
+                        display: "flex",                    flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "#000000",
+                        backgroundColor: "#CCCCCC"
+                    }}>
+                        <TabPanel value={tabValue} index={0}>
+                            <Typography variant="h3">
                                     Register Driver
-                                </Button>
-                            </Box>
-                        </form>
-                    </TabPanel>
-                    <TabPanel value={tabValue} index={1}>
-                        <form onSubmit={driverAidSubmit}>
-                            <InputLabel>
-                                First Name
-                            </InputLabel>
-                            <TextField
-                            onChange={(e) => setFirstName(e.target.value)}
-                            />
-                            <InputLabel>
-                                Last Name
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setLastName(e.target.value)}
-                            />
-                            <InputLabel>
-                                Driver Aid ID Number
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setDriverID(e.target.value)}
-                            />
-                            {/*are we still planning on adding photos? we need to find a database solution to storing photos if we are*/}
-                            <InputLabel>
-                                Driver Aid Photo
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setDriverPhoto(e.target.value)}
-                            />
-                            <InputLabel>
-                                Address
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setAddress(e.target.value)}
-                            />
-                            <InputLabel>
-                                City
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setCity(e.target.value)}
-                            />
-                            <InputLabel>
-                                State
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setState(e.target.value)}
-                            />
-                            <Box>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                >
+                            </Typography>
+                        </TabPanel>
+                        <TabPanel value={tabValue} index={1}>
+                            <Typography variant="h3">
                                     Register Driver Aid
-                                </Button>
-                            </Box>
-                        </form>
-                    </TabPanel>
+                            </Typography>
+                        </TabPanel>
+                        <Box>
+                            <Tabs value={tabValue} onChange={handleTabChange}>
+                                <Tab label="Driver" {...tabProps(0)}/>
+                                <Tab label="Driver Aid" {...tabProps(1)}/>
+                            </Tabs>
+                        </Box>
+                        <TabPanel value={tabValue} index={0}>
+                            <form onSubmit={driverSubmit}>
+                                <InputLabel>
+                                    First Name
+                                </InputLabel>
+                                <TextField
+                                onChange={(e) => setFirstName(e.target.value)}
+                                />
+                                <InputLabel>
+                                    Last Name
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
+                                <InputLabel>
+                                    Driver ID Number
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setDriverID(e.target.value)}
+                                />
+                                {/*are we still planning on adding photos? we need to find a database solution to storing photos if we are*/}
+                                <InputLabel>
+                                    Driver Photo
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setDriverPhoto(e.target.value)}
+                                />
+                                <InputLabel>
+                                    Address
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setAddress(e.target.value)}
+                                />
+                                <InputLabel>
+                                    City
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setCity(e.target.value)}
+                                />
+                                <InputLabel>
+                                    State
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setState(e.target.value)}
+                                />
+                                <Box>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                    >
+                                        Register Driver
+                                    </Button>
+                                </Box>
+                            </form>
+                        </TabPanel>
+                        <TabPanel value={tabValue} index={1}>
+                            <form onSubmit={driverAidSubmit}>
+                                <InputLabel>
+                                    First Name
+                                </InputLabel>
+                                <TextField
+                                onChange={(e) => setFirstName(e.target.value)}
+                                />
+                                <InputLabel>
+                                    Last Name
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
+                                <InputLabel>
+                                    Driver Aid ID Number
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setDriverID(e.target.value)}
+                                />
+                                {/*are we still planning on adding photos? we need to find a database solution to storing photos if we are*/}
+                                <InputLabel>
+                                    Driver Aid Photo
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setDriverPhoto(e.target.value)}
+                                />
+                                <InputLabel>
+                                    Address
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setAddress(e.target.value)}
+                                />
+                                <InputLabel>
+                                    City
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setCity(e.target.value)}
+                                />
+                                <InputLabel>
+                                    State
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setState(e.target.value)}
+                                />
+                                <Box>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                    >
+                                        Register Driver Aid
+                                    </Button>
+                                </Box>
+                            </form>
+                        </TabPanel>
+                    </Box>
                 </Box>
             </Box>
 

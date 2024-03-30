@@ -75,65 +75,76 @@ const SignIn = () => {
                     color: "#000000",
                     backgroundColor: "#CCCCCC"
                 }}>
-                    <Typography variant="h3">
-                        Sign In
-                    </Typography>
-                    <Box>
-                        <Tabs value={tabValue} onChange={handleTabChange}>
-                            <Tab label="User" {...tabProps(0)}/>
-                            <Tab label="Provider" {...tabProps(1)}/>
-                        </Tabs>
+                    <Box className="signinContent" sx={{
+                        width: "100%",
+                        height: "flex",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "#000000",
+                        backgroundColor: "#CCCCCC"
+                    }}>
+                        <Typography variant="h3">
+                            Sign In
+                        </Typography>
+                        <Box>
+                            <Tabs value={tabValue} onChange={handleTabChange}>
+                                <Tab label="User" {...tabProps(0)}/>
+                                <Tab label="Provider" {...tabProps(1)}/>
+                            </Tabs>
+                        </Box>
+                        <TabPanel value={tabValue} index={0}>
+                            <form onSubmit={userSubmit}>
+                                <InputLabel>
+                                    Username
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                                <InputLabel>
+                                    Password
+                                </InputLabel>
+                                <TextField
+                                    type="password"
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <Box>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                    >
+                                        Sign In
+                                    </Button>
+                                </Box>
+                            </form>
+                        </TabPanel>
+                        <TabPanel value={tabValue} index={1}>
+                            <form onSubmit={providerSubmit}>
+                                <InputLabel>
+                                    Username
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                                <InputLabel>
+                                    Password
+                                </InputLabel>
+                                <TextField
+                                    type="password"
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <Box>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                    >
+                                        Sign In
+                                    </Button>
+                                </Box>
+                            </form>
+                        </TabPanel>
                     </Box>
-                    <TabPanel value={tabValue} index={0}>
-                        <form onSubmit={userSubmit}>
-                            <InputLabel>
-                                Username
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                            <InputLabel>
-                                Password
-                            </InputLabel>
-                            <TextField
-                                type="password"
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <Box>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                >
-                                    Sign In
-                                </Button>
-                            </Box>
-                        </form>
-                    </TabPanel>
-                    <TabPanel value={tabValue} index={1}>
-                        <form onSubmit={providerSubmit}>
-                            <InputLabel>
-                                Username
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                            <InputLabel>
-                                Password
-                            </InputLabel>
-                            <TextField
-                                type="password"
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <Box>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                >
-                                    Sign In
-                                </Button>
-                            </Box>
-                        </form>
-                    </TabPanel>
                 </Box>
             </Box>
         </div>
