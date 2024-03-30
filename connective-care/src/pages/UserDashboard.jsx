@@ -78,7 +78,7 @@ const UserDashboard = () => {
                             <TextField
                                 onChange={(e) => setStateInput(e.target.value)}
                             />
-                            <Box>
+                            <Box paddingTop={"3vh"}>
                                 <Button
                                     type="submit"
                                     variant="contained"
