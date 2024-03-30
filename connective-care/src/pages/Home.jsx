@@ -13,6 +13,7 @@ const Home = () => {
             <Typography variant="h4">
                 Revolutionizing Non-Emergency Medical Transportation
             </Typography>
+            <Typography>&nbsp;</Typography>
             <Button 
                 href="./SignUp"
             >
