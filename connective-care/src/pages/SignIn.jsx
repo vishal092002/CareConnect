@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { NavBar } from "../components/NavBar";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
@@ -9,17 +10,21 @@ const SignIn = () => {
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
 
+    const navigate = useNavigate();
+
     async function submit(e) {
         e.preventDefault()
         //console.log("submit");
         if (tabValue == 0) {
             //sign in funciton here
             //console.log("user");
-            const response = await userLogin({username,password})
+            const response = await userLogin({username,password});
+            navigate("/UserDashboard");
         }
         else if (tabValue == 1) {
             //add provider sign in here
             //console.log("provider");
+            navigate("/UserDashboard");
         }
 
     }

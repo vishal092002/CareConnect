@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { NavBar } from "../components/NavBar";
 import { Driver } from "../components/Driver";
@@ -7,6 +9,19 @@ import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filter
 
 
 const ProviderDashboard = () => {
+
+    const navigate = useNavigate();
+
+    console.log(Cookies.get('type'));
+    
+    useEffect(() => {
+        if (!Cookies.get('status')) {
+            navigate("/SignIn");
+        }
+        else if (Cookies.get('type') == "user") {
+            navigate("/UserDashboard");
+        }
+    });
 
     displayAllDrivers(drivers);
 
@@ -48,7 +63,7 @@ const ProviderDashboard = () => {
             >
                 {value === index && (
                     <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    <Typography component={'span'}>{children}</Typography>
                   </Box>
                 )}
             </div>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { NavBar } from "../components/NavBar";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
@@ -9,6 +10,8 @@ const SignUp = () => {
     const [password,setPassword] = useState(null)
     const [name,setName] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null);
+
+    const navigate = useNavigate();
     
     //handles any change when creating the info
     const handleUser = (event) => {
@@ -31,7 +34,8 @@ const SignUp = () => {
             }
             try{
                 const response = await userSignup({name,username,password})
-                alert("User has successfully signed up")
+                alert("User has successfully signed up");
+                navigate("/SignIn");
             }
             catch(error){
                 console.log(error)

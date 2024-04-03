@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import { NavBar } from "../components/NavBar";
 import { Driver } from "../components/Driver";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
@@ -6,6 +8,19 @@ import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filter
 
 
 const UserDashboard = () => {
+
+    const navigate = useNavigate();
+
+    console.log(Cookies.get('type'));
+    
+    useEffect(() => {
+        if (!Cookies.get('status')) {
+            navigate("/SignIn");
+        }
+        else if (Cookies.get('type') == "provider") {
+            navigate("/ProviderDashboard");
+        }
+    });
 
     displayAllDrivers(drivers);
 
