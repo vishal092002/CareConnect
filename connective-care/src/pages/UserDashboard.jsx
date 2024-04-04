@@ -11,7 +11,7 @@ const UserDashboard = () => {
 
     const navigate = useNavigate();
 
-    console.log(Cookies.get('type'));
+    //console.log(Cookies.get('type'));
     
     useEffect(() => {
         if (!Cookies.get('status')) {
@@ -50,21 +50,26 @@ const UserDashboard = () => {
                 height: "100vh",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center"
+                justifyContent: "center",
+                flexDirection: "row"
             }}>
-                <Box className="addressBox" sx={{
-                    width: "30%",
-                    height: "50%",
+                <Box className="leftColBox" sx={{
+                    width: "50%",
+                    height: "100%",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center",
-                    color: "#000000",
-                    backgroundColor: "#CCCCCC"
+                    alignItems: "center"
                 }}>
-                    <Box className="addressContent" sx={{
-                        width: "100%",
-                        height: "flex",
+                    <Typography 
+                        variant="h2" 
+                        paddingBottom={"8vh"}
+                    >
+                        Welcome, {Cookies.get('name')}
+                    </Typography>
+                    <Box className="addressBox" sx={{
+                        width: "50%",
+                        height: "50%",
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",
@@ -72,45 +77,57 @@ const UserDashboard = () => {
                         color: "#000000",
                         backgroundColor: "#CCCCCC"
                     }}>
-                        <Typography variant="h3">
-                            Update Address
-                        </Typography>
-                        <form onSubmit={updateAddress}>
-                            <InputLabel>
-                                Address
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setAddressInput(e.target.value)}
-                            />
-                            <InputLabel>
-                                City
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setCityInput(e.target.value)}
-                            />
-                            <InputLabel>
-                                State
-                            </InputLabel>
-                            <TextField
-                                onChange={(e) => setStateInput(e.target.value)}
-                            />
-                            <Box paddingTop={"3vh"}>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                >
-                                    Update
-                                </Button>
-                            </Box>
-                        </form>
+                        <Box className="addressContent" sx={{
+                            width: "100%",
+                            height: "flex",
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            color: "#000000",
+                            backgroundColor: "#CCCCCC"
+                        }}>
+                            <Typography variant="h3">
+                                Update Address
+                            </Typography>
+                            <form onSubmit={updateAddress}>
+                                <InputLabel>
+                                    Address
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setAddressInput(e.target.value)}
+                                />
+                                <InputLabel>
+                                    City
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setCityInput(e.target.value)}
+                                />
+                                <InputLabel>
+                                    State
+                                </InputLabel>
+                                <TextField
+                                    onChange={(e) => setStateInput(e.target.value)}
+                                />
+                                <Box paddingTop={"3vh"}>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                    >
+                                        Update
+                                    </Button>
+                                </Box>
+                            </form>
+                        </Box>
                     </Box>
                 </Box>
-            </Box>
-
-            <div>
-                <h1>All Drivers</h1>
+                
+                <Box className="driverBox" sx={{
+                    width: "50%"
+                }}>
+                    <h1>All Drivers</h1>
                     {drivers.map(driver => (
-                        <Driver 
+                        <Driver
                             firstName={driver.firstName}
                             lastName={driver.lastName}
                             company={driver.companyName}
@@ -121,10 +138,10 @@ const UserDashboard = () => {
                             state={driver.state}
                         />
                     ))}
-                <h1>Driver Details</h1>
-                <h2>Filtered Drivers</h2>
+                    <h1>Driver Details</h1>
+                    <h2>Filtered Drivers</h2>
                     {filteredDrivers.map(driver => (
-                        <Driver 
+                        <Driver
                             firstName={driver.firstName}
                             lastName={driver.lastName}
                             company={driver.companyName}
@@ -135,9 +152,9 @@ const UserDashboard = () => {
                             state={driver.state}
                         />
                     ))}
-                <h2>Filtered Driver Aides</h2>
+                    <h2>Filtered Driver Aides</h2>
                     {filteredDriverAides.map(driverAide => (
-                        <Driver 
+                        <Driver
                             firstName={driverAide.firstName}
                             lastName={driverAide.lastName}
                             company={driverAide.companyName}
@@ -149,7 +166,8 @@ const UserDashboard = () => {
                             aid={true}
                         />
                     ))}
-            </div>
+                </Box>
+            </Box>
         </div>
         
     )
