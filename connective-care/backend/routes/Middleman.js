@@ -11,11 +11,8 @@ dotenv.config()
 //================= connection and establishing names of db and collections====================================================================================
 //=============================================================================================================================================================
 
-// Database Names, change the names to what the appropriate db names should be
-const userDb= 'test'; 
-const providerDb = 'test2' 
-const driverDb = 'test3'
-const AideDb = 'test4'
+// Database Name, change the name to what the appropriate db name should be
+const DbName= 'test'; 
 
 // collections, change the names to what the appropriate collection names should be
 const userCollection = 'users' 
@@ -55,7 +52,7 @@ router.post("/createUser", async(req,res)=>{
     }
     const hash = await bcrypt.hash(password, 10);
 
-    const db = await connection(userDb)
+    const db = await connection(DbName)
     try{
       const Collection = db.collection(userCollection);
 
@@ -89,7 +86,7 @@ router.post("/createUser", async(req,res)=>{
 // user login
 router.post("/userLogin",async(req,res)=>{
   const { username, password } = req.body;
-  const db = await connection(userDb)
+  const db = await connection(DbName)
   const Collection = db.collection('users')
 
 
@@ -118,7 +115,7 @@ router.post("/userLogin",async(req,res)=>{
 router.post("/createProvider",async(req,res)=>{
   const {username,password} = req.body
   bcrypt.hash(password,10).then(async (hash)=>{
-    const db = await connection(providerDb)
+    const db = await connection(DbName)
     try{
       const Collection = db.collection(providerCollection)
       const result = await Collection.insertOne({
@@ -144,7 +141,7 @@ router.post("/createProvider",async(req,res)=>{
 // provider login
 router.post("/providerLogin", async (req, res) => {
   const { username, password } = req.body;
-  const db = await collection(providerDb)
+  const db = await collection(DbName)
 
   try{
     const Collection = db.collection(providerCollection)
@@ -182,7 +179,7 @@ router.post("/providerLogin", async (req, res) => {
 //create driver
 router.post("/createDriver", async(req,res)=>{
   const {firstName,lastName,driverID,picture,address,city,state} = req.body
-  const db = await(connection(driverDb))
+  const db = await(connection(DbName))
 
   try{
     const Collection = db.collection(driverCollection)
@@ -213,7 +210,7 @@ router.post("/createDriver", async(req,res)=>{
 // gets the drivers info
 router.get("/getDriver/:driverId", async(req, res) => {
   const driverId = req.params.driverId;
-  const db = await connection(driverDb);
+  const db = await connection(DbName);
 
   try {
       const Collection = db.collection(driverCollection);
@@ -241,7 +238,7 @@ router.get("/getDriver/:driverId", async(req, res) => {
 //create driver Aide
 router.post("/createDriverAide", async(req,res)=>{
   const {firstName,lastName,driverID,picture,address,city,state} = req.body
-  const db = await(connection(AideDb))
+  const db = await(connection(DbName))
 
   try{
     const Collection = db.collection(AideCollection)
@@ -271,7 +268,7 @@ router.post("/createDriverAide", async(req,res)=>{
 // gets the Driver Aides info
 router.get("/getDriverAide/:driverId", async(req, res) => {
   const driverId = req.params.driverId;
-  const db = await connection(AideDb);
+  const db = await connection(DbName);
 
   try {
       const Collection = db.collection(AideCollection);
