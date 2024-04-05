@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { NavBar } from "../components/NavBar";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
-import { userSignup } from "../components/dbCalls";
+import { userSignup, providerSignup } from "../components/dbCalls";
 
 const SignUp = () => {
     const [username,setUsername] = useState(null)
@@ -56,7 +56,14 @@ const SignUp = () => {
             }
         }
         else if (tabValue == 1) {
-            //add provider sign up here
+            try{
+                const response = await providerSignup({username,password})
+                alert("Provider has successfully signed up");
+                navigate("/SignIn");
+            }
+            catch(error){
+                console.log(error)
+            }
         }
     }
 

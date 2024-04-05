@@ -141,33 +141,31 @@ router.post("/createProvider",async(req,res)=>{
 // provider login
 router.post("/providerLogin", async (req, res) => {
   const { username, password } = req.body;
-  const db = await collection(DbName)
+  const db = await connection(DbName);
 
   try{
-    const Collection = db.collection(providerCollection)
+    const Collection = db.collection(providerCollection);
 
-    const provider = await Collection.findOne({username:username})
+    const provider = await Collection.findOne({username:username});
 
 
     if (provider) {
-        bcrypt.compare(password, provider.account.password).then((same) => {
+        bcrypt.compare(password, provider.password).then((same) => {
             if (!same) {
                 return res.json({ error: "Incorrect password" });
             }
-
-            const Token = sign({username:username,password:password},"importantToken")
+            const Token = sign({username:username,password:password},"importantToken");
             return res.json(Token);
         });
     } else {
         return res.json({ error: "provider Username Does Not Exist" });
     }
-
   }
   catch(error){
-    res.status(500).json({ error: "Internal server error" })
+    res.status(500).json({ error: "Internal server error" });
   }
   finally{
-    await db.client.close()
+    await db.client.close();
   }
   
 });

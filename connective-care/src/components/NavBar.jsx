@@ -47,7 +47,7 @@ export function NavBar() {
                     <Button 
                         onClick={useSignOut}
                     >
-                        <Typography color="#FFFFFF">Log Out</Typography>
+                        <Typography color="#FFFFFF">Sign Out</Typography>
                     </Button>
                     :
                     <Box>

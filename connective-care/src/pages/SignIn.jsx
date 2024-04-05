@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { NavBar } from "../components/NavBar";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
-import { userLogin } from "../components/dbCalls";
+import { userLogin, providerLogin } from "../components/dbCalls";
 
 const SignIn = () => {
 
@@ -24,9 +24,9 @@ const SignIn = () => {
         else if (tabValue == 1) {
             //add provider sign in here
             //console.log("provider");
-            navigate("/UserDashboard");
+            const response = await providerLogin({username,password});
+            navigate("/ProviderDashboard");
         }
-
     }
 
     //tabs

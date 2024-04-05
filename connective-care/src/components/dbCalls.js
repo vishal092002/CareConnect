@@ -32,4 +32,32 @@ export const userLogin = async(data) =>{
     })
 }
 
+// For Providers
+export const providerSignup = async (data) =>{
+    try{
+        const response = await axios.post(`${baseURL}/routes/createProvider`,data)
+        return response.data
+    }
+    catch(error){
+        alert(error.response.data)
+        console.log(error.response)
+        throw error
+    }
+}
+
+export const providerLogin = async(data) =>{
+    const { username, password } = data;
+    await axios.post(`${baseURL}/routes/providerLogin`,{username,password}).then((res)=>{
+        if(res.data.error){
+            console.log(res.data.error)
+        }
+        else{
+            alert("successful login");
+            Cookies.set('status', true);
+            Cookies.set('name', username);
+            Cookies.set('type', "provider");
+        }
+    })
+}
+
 // For Driver
