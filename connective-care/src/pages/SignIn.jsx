@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { NavBar } from "../components/NavBar";
@@ -11,6 +12,15 @@ const SignIn = () => {
     const [password, setPassword] = useState(null);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (Cookies.get('type') == "user") {
+            navigate("/UserDashboard");
+        }
+        else if (Cookies.get('type') == "provider") {
+            navigate("/ProviderDashboard");
+        }
+    });
 
     async function submit(e) {
         e.preventDefault()
