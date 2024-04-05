@@ -7,11 +7,21 @@ const { MongoClient } = require('mongodb');
 
 dotenv.config()
 
-// Database Name
-const dbName = 'test'; // Change this to your database name
+//=============================================================================================================================================================
+//================= connection and establishing names of db and collections====================================================================================
+//=============================================================================================================================================================
+
+// Database Name, change the name to what the appropriate db name should be
+const DbName= 'test'; 
+
+// collections, change the names to what the appropriate collection names should be
+const userCollection = 'users' 
+const providerCollection = 'companies' 
+const driverCollection = 'drivers'
+const AideCollection = 'aides'
 
 // a connection is going to be needed everytime we make a http request with mongodb
-async function connection() {
+async function connection(dbName) {
   const client = new MongoClient(process.env.MONGODB_URI, {
     serverApi: {
       version: '1',
@@ -30,19 +40,21 @@ async function connection() {
   }
 }
 
-// For user side of database
+//=============================================================================================================================================================
+//================= For user side of database==================================================================================================================
+//=============================================================================================================================================================
 
 //create user
 router.post("/createUser", async(req,res)=>{
-    const {name,username,password} = req.body
+    const {username,password} = req.body
     if (!password) {
       return res.status(400).json({ error: "Password is required" });
     }
     const hash = await bcrypt.hash(password, 10);
 
-    const db = await connection()
+    const db = await connection(DbName)
     try{
-      const Collection = db.collection('users');
+      const Collection = db.collection(userCollection);
 
       const user = await Collection.findOne({username:username})
 
@@ -54,7 +66,6 @@ router.post("/createUser", async(req,res)=>{
 
       const result = await Collection.insertOne( 
         {
-          name: name,
           username: username,
           password: hash
         }
@@ -62,7 +73,7 @@ router.post("/createUser", async(req,res)=>{
       res.json(result);
     }
     catch(error){
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ error: "Internal server error" })
     }
     finally{
       // closing connection once done
@@ -72,10 +83,10 @@ router.post("/createUser", async(req,res)=>{
     
 })
 
-//login
+// user login
 router.post("/userLogin",async(req,res)=>{
   const { username, password } = req.body;
-  const db = await connection()
+  const db = await connection(DbName)
   const Collection = db.collection('users')
 
 
@@ -96,46 +107,182 @@ router.post("/userLogin",async(req,res)=>{
   
 })
 
-// For Company side of db
-//TODO: change logic to match what the user db is doing for mongodb instead of mongoose
+//=============================================================================================================================================================
+//================= For provider side of database===============================================================================================================
+//=============================================================================================================================================================
 
-// create company 
-router.post("/createCompany",async(req,res)=>{
-  const company = req.body
-  const {name,username,password,registrationInfo} = req.body
-  bcrypt.hash(password,10).then((hash)=>{
-    companyModel.create({
-      name: name,
-      registrationInfo: registrationInfo,
-      account: {
-          username: username,
-          password: hash
-      }
+// create provider
+router.post("/createProvider",async(req,res)=>{
+  const {username,password} = req.body
+  bcrypt.hash(password,10).then(async (hash)=>{
+    const db = await connection(DbName)
+    try{
+      const Collection = db.collection(providerCollection)
+      const result = await Collection.insertOne({
+        username: username,
+        password: hash
+      })
+      res.json(result)
 
 
-    })
+    }
+    catch(error){
+      res.status(500).json({ error: "Internal server error" })
+    }
+    finally{
+      await db.client.close()
+    }
+    
     
   })
-  res.json(company)
+ 
 })
 
-// Company login
-router.post("/companyLogin", async (req, res) => {
+// provider login
+router.post("/providerLogin", async (req, res) => {
   const { username, password } = req.body;
-  const company = await companyModel.findOne({ 'account.username': username });
+  const db = await connection(DbName);
 
-  if (company) {
-      bcrypt.compare(password, company.account.password).then((same) => {
-          if (!same) {
-              return res.json({ error: "Incorrect password" });
-          }
+  try{
+    const Collection = db.collection(providerCollection);
 
-          const Token = sign({username:username,password:password},"importantToken")
-          return res.json(Token);
-      });
-  } else {
-      return res.json({ error: "Company Username Does Not Exist" });
+    const provider = await Collection.findOne({username:username});
+
+
+    if (provider) {
+        bcrypt.compare(password, provider.password).then((same) => {
+            if (!same) {
+                return res.json({ error: "Incorrect password" });
+            }
+            const Token = sign({username:username,password:password},"importantToken");
+            return res.json(Token);
+        });
+    } else {
+        return res.json({ error: "provider Username Does Not Exist" });
+    }
+  }
+  catch(error){
+    res.status(500).json({ error: "Internal server error" });
+  }
+  finally{
+    await db.client.close();
+  }
+  
+});
+
+//=============================================================================================================================================================
+//================= For Driver side of database================================================================================================================
+//=============================================================================================================================================================
+
+//create driver
+router.post("/createDriver", async(req,res)=>{
+  const {firstName,lastName,driverID,picture,address,city,state} = req.body
+  const db = await(connection(DbName))
+
+  try{
+    const Collection = db.collection(driverCollection)
+    const driver = await Collection.findOne({driverID:driverID})
+    if(driver){
+      return res.status(400).json("Driver already exists")
+    }
+    const result = await Collection.insertOne({
+      firstName:firstName,
+      lastName:lastName,
+      driverID:driverID,
+      picture:picture,
+      address:address,
+      city:city,
+      state:state
+
+    })
+    res.json(result)
+  }
+  catch(error){
+    res.status(500).json({ error: "Internal server error" })
+  }
+  finally{
+    await db.client.close()
+  }
+})
+
+// gets the drivers info
+router.get("/getDriver/:driverId", async(req, res) => {
+  const driverId = req.params.driverId;
+  const db = await connection(DbName);
+
+  try {
+      const Collection = db.collection(driverCollection);
+      const driver = await Collection.findOne({ driverId: driverId });
+
+      if (!driver) {
+          return res.status(404).json({ error: "Driver not found" });
+      }
+
+      res.json(driver);
+  } 
+  catch(error) {
+      res.status(500).json({ error: "Internal server error" });
+  } 
+  finally {
+      await db.client.close();
   }
 });
 
+
+//=============================================================================================================================================================
+//================= For Driver Aide side of database================================================================================================================
+//=============================================================================================================================================================
+
+//create driver Aide
+router.post("/createDriverAide", async(req,res)=>{
+  const {firstName,lastName,driverID,picture,address,city,state} = req.body
+  const db = await(connection(DbName))
+
+  try{
+    const Collection = db.collection(AideCollection)
+    const driver = await Collection.findOne({driverID:driverID})
+    if(driver){
+      return res.status(400).json("Driver already exists")
+    }
+    const result = await Collection.insertOne({
+      firstName:firstName,
+      lastName:lastName,
+      driverID:driverID,
+      picture:picture,
+      address:address,
+      city:city,
+      state:state
+    })
+    res.json(result)
+  }
+  catch(error){
+    res.status(500).json({ error: "Internal server error" })
+  }
+  finally{
+    await db.client.close()
+  }
+})
+
+// gets the Driver Aides info
+router.get("/getDriverAide/:driverId", async(req, res) => {
+  const driverId = req.params.driverId;
+  const db = await connection(DbName);
+
+  try {
+      const Collection = db.collection(AideCollection);
+      const driver = await Collection.findOne({ driverId: driverId });
+
+      if (!driver) {
+          return res.status(404).json({ error: "Driver not found" });
+      }
+
+      res.json(driver);
+  } 
+  catch(error) {
+      res.status(500).json({ error: "Internal server error" });
+  } 
+  finally {
+      await db.client.close();
+  }
+});
 module.exports = router
