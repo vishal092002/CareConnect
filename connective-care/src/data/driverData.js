@@ -5,7 +5,10 @@ export const drivers = [
       lastName: 'Doe',
       profilePicture: 'a.jpg',
       companyName: 'ABC Taxi',
-      idNumber: '12345'
+      idNumber: '12345',
+      address: '1 Main Street',
+      city: 'Newark',
+      state: 'NJ'
     },
     {
       id: 2,
@@ -13,7 +16,10 @@ export const drivers = [
       lastName: 'Johnson',
       profilePicture: 'b.jpg',
       companyName: 'XYZ Rides',
-      idNumber: '67890'
+      idNumber: '67890',
+      address: '10 Fake Road',
+      city: 'Brooklyn',
+      state: 'NY'
     }
   ];
   
@@ -24,7 +30,10 @@ export const drivers = [
       lastName: 'Smith',
       profilePicture: 'c.jpg',
       companyName: 'ABC Taxi',
-      idNumber: '54321'
+      idNumber: '54321',
+      address: '1 Main Street',
+      city: 'Newark',
+      state: 'NJ'
     },
     {
       id: 2,
@@ -32,7 +41,10 @@ export const drivers = [
       lastName: 'Johnson',
       profilePicture: 'd.jpg',
       companyName: 'XYZ Rides',
-      idNumber: '09876'
+      idNumber: '09876',
+      address: '10 Fake Road',
+      city: 'Brooklyn',
+      state: 'NY'
     },
   ];
   
