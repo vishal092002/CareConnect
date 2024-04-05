@@ -38,6 +38,7 @@ const ProviderDashboard = () => {
     const [state, setState] = useState(null);
 
     function submit() {
+        setCompanyName(Cookies.get('name'));
         if (tabValue == 0) {
             //add driver to db
             //form gathers everything but companyName
