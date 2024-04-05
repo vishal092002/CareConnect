@@ -8,15 +8,16 @@ import { userSignup } from "../components/dbCalls";
 const SignUp = () => {
     const [username,setUsername] = useState(null)
     const [password,setPassword] = useState(null)
-    const [name,setName] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null);
+
+    const passwordRegex = /(?=.+[a-z])(?=.+[A-Z])(?=.+[0-9])(?=.+[!@#$%^&*])/
+    const minimumPasswordLength = 8
 
     const navigate = useNavigate();
     
     //handles any change when creating the info
     const handleUser = (event) => {
         setUsername(event.target.value);
-        setName(event.target.value)
       };
     
     const handlePassword = (event) => {
@@ -26,14 +27,27 @@ const SignUp = () => {
 
     async function submit(e) {
         e.preventDefault()
+        //sign up funciton here
+        // password security rules
+        // 1. at least 8 characters
+        // 2. at least 1 uppercase and at least 1 lowercase letter
+        // 3. at least 1 number
+        // 4. at least one special character
+        if (password.length < minimumPasswordLength) {
+            alert("Password must be at least 8 characters")
+            return
+        }
+        if (!passwordRegex.test(password)) {
+            alert("Password must meet the criteria:\n1. Contains at least 1 uppercase letter\n2. Contains at least 1 lowercase letter\n3. Contains at least 1 number\n4. Contains at least 1 special characters")
+            return
+        }
+        if (confirmPassword !== password){
+            alert("Passwords do not match")
+            return
+        }
         if (tabValue == 0) {
-            //sign up funciton here
-            if (confirmPassword !== password){
-                alert("Passwords do not match")
-                return
-            }
             try{
-                const response = await userSignup({name,username,password})
+                const response = await userSignup({username,password})
                 alert("User has successfully signed up");
                 navigate("/SignIn");
             }
