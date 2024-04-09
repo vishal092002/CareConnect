@@ -309,7 +309,6 @@ router.get('/getAllDrivers', async (req, res) => {
       
   } 
   catch (error) {
-      // Handle errors
       console.log(error);
       res.status(500).json({ error: 'Internal server error' });
   }
@@ -336,7 +335,7 @@ router.post("/createDriverAide", async(req,res)=>{
       return res.status(400).json("Driver Aide already exists")
     }
 
-    // Adding the new driver to our provider
+
     const PCollection = db.collection(providerCollection)
     const provider = await PCollection.findOne({username:providerUsername})
 
@@ -405,7 +404,6 @@ router.get("/getDriverAide/:driverId", async(req, res) => {
 });
 
 // get all driver aides
-
 router.get('/getAllDriverAides', async (req, res) => {
   const {username} = req.body;
   const db = await connection(DbName);
@@ -425,7 +423,6 @@ router.get('/getAllDriverAides', async (req, res) => {
       
   } 
   catch (error) {
-      // Handle errors
       console.log(error);
       res.status(500).json({ error: 'Internal server error' });
   }

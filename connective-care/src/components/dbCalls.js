@@ -42,6 +42,7 @@ export const updateUser = async(data) =>{
     }
 
 }
+
 // For Providers
 export const providerSignup = async (data) =>{
     try{
@@ -71,13 +72,31 @@ export const providerLogin = async(data) =>{
 }
 
 // For Driver
-
 export const createDriver = async (data) => {
     try {
         const response = await axios.post(`${baseURL}/routes/createDriver`, data);
         return response.data;
     } catch (error) {
-        alert(error.response.data);
+        console.log(error.response);
+        throw error;
+    }
+};
+
+export const getAllDrivers = async () => {
+    try {
+        const response = await axios.get(`${baseURL}/routes/getAllDrivers`);
+        return response.data;
+    } catch (error) {
+        console.log(error.response);
+        throw error;
+    }
+};
+
+export const getDriverById = async (driverId) => {
+    try {
+        const response = await axios.get(`${baseURL}/routes/getDriver/${driverId}`);
+        return response.data;
+    } catch (error) {
         console.log(error.response);
         throw error;
     }
@@ -85,14 +104,34 @@ export const createDriver = async (data) => {
 
 
 // For Driver Aide
-
 export const createDriverAide = async (data) => {
     try {
         const response = await axios.post(`${baseURL}/routes/createDriverAide`, data);
         return response.data;
     } catch (error) {
-        alert(error.response.data);
         console.log(error.response);
         throw error;
     }
 };
+
+
+export const getAllDriversAides = async () => {
+    try {
+        const response = await axios.get(`${baseURL}/routes/getAllDriverAides`);
+        return response.data;
+    } catch (error) {
+        console.log(error.response);
+        throw error;
+    }
+};
+
+export const getDriverAideById = async (driverId) => {
+    try {
+        const response = await axios.get(`${baseURL}/routes/getDriverAide/${driverId}`);
+        return response.data;
+    } catch (error) {
+        console.log(error.response);
+        throw error;
+    }
+};
+
