@@ -6,7 +6,7 @@ import { NavBar } from "../components/NavBar";
 import { Driver } from "../components/Driver";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
 import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filterDriverAidesByCompany } from "../data/driverData";
-
+import { createDriver, createDriverAide } from "../components/dbCalls";
 
 const ProviderDashboard = () => {
 
@@ -37,16 +37,47 @@ const ProviderDashboard = () => {
     const [city, setCity] = useState(null);
     const [state, setState] = useState(null);
 
-    function submit() {
+    async function submit(e) {
+        e.preventDefault()
         setCompanyName(Cookies.get('name'));
         if (tabValue == 0) {
-            //add driver to db
-            //form gathers everything but companyName
+            const data = {
+                firstName:firstName,
+                lastName:lastName,
+                driverID:driverID,
+                picture:driverPhoto,
+                address:address,
+                city:city,
+                state:state,
+                providerUsername:companyName
+            }
+            try{
+                const res = await createDriver(data)
+                alert("Driver Created");
+            }
+            catch(error){
+                console.log(error)
+            }
             //grab that from provider login session once sessions are working
         }
         else if (tabValue == 1) {
-            //add driver aid to db
-            //form gathers everything but companyName
+            const data = {
+                firstName:firstName,
+                lastName:lastName,
+                driverID:driverID,
+                picture:driverPhoto,
+                address:address,
+                city:city,
+                state:state,
+                providerUsername:companyName
+            }
+            try{
+                const res = await createDriverAide(data)
+                alert("Driver Aide Created");
+            }
+            catch(error){
+                console.log(error)
+            }
             //grab that from provider login session once sessions are working
         }
     }

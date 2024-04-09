@@ -5,6 +5,7 @@ const {sign} = require('jsonwebtoken')
 const dotenv = require('dotenv')
 const { MongoClient } = require('mongodb');
 
+
 dotenv.config()
 
 //=============================================================================================================================================================
@@ -67,7 +68,10 @@ router.post("/createUser", async(req,res)=>{
       const result = await Collection.insertOne( 
         {
           username: username,
-          password: hash
+          password: hash,
+          address:null,
+          city:null,
+          state:null
         }
       );    
       res.json(result);
@@ -107,6 +111,35 @@ router.post("/userLogin",async(req,res)=>{
   
 })
 
+// update user Address
+router.post("/updateUser", async (req,res) =>{
+  const {username,address,city,state} = req.body
+  const db = await connection(DbName)
+  const Collection = db.collection('users')
+
+  try{
+    const user = await Collection.findOne({username:username})
+    if(!user){
+      return res.status(404).json({ error: "User not found" })
+    }
+
+    const result = await Collection.updateOne(
+      {username:username},
+      {
+        $set:{
+          address:address,
+          city:city,
+          state:state
+        }
+      }
+    )
+    res.json(result)
+  }
+  catch(error){
+    res.status(500).json({ error: "Internal server error" });
+  }
+})
+
 //=============================================================================================================================================================
 //================= For provider side of database===============================================================================================================
 //=============================================================================================================================================================
@@ -120,9 +153,11 @@ router.post("/createProvider",async(req,res)=>{
       const Collection = db.collection(providerCollection)
       const result = await Collection.insertOne({
         username: username,
-        password: hash
+        password: hash,
+        drivers:[],
+        driverAides:[],
       })
-      res.json(result)
+      return res.json(result)
 
 
     }
@@ -176,7 +211,7 @@ router.post("/providerLogin", async (req, res) => {
 
 //create driver
 router.post("/createDriver", async(req,res)=>{
-  const {firstName,lastName,driverID,picture,address,city,state} = req.body
+  const {firstName,lastName,driverID,picture,address,city,state,providerUsername} = req.body
   const db = await(connection(DbName))
 
   try{
@@ -185,6 +220,32 @@ router.post("/createDriver", async(req,res)=>{
     if(driver){
       return res.status(400).json("Driver already exists")
     }
+
+    // Adding the new driver to our provider
+    const PCollection = db.collection(providerCollection)
+    const provider = await PCollection.findOne({username:providerUsername})
+
+    await PCollection.updateOne(
+        { username: providerUsername },
+        {
+          $push: {
+              drivers: {
+                  firstName: firstName,
+                  lastName: lastName,
+                  driverID: driverID,
+                  picture: picture,
+                  address: address,
+                  city: city,
+                  state: state
+              }
+          }
+        }
+    )
+    if (!provider) {
+      return res.status(404).json({ error: "Provider not found" });
+    }
+
+
     const result = await Collection.insertOne({
       firstName:firstName,
       lastName:lastName,
@@ -198,7 +259,7 @@ router.post("/createDriver", async(req,res)=>{
     res.json(result)
   }
   catch(error){
-    res.status(500).json({ error: "Internal server error" })
+    res.status(500).json(error)
   }
   finally{
     await db.client.close()
@@ -228,6 +289,36 @@ router.get("/getDriver/:driverId", async(req, res) => {
   }
 });
 
+// gets all drivers
+router.get('/getAllDrivers', async (req, res) => {
+  const {username} = req.body;
+  const db = await connection(DbName); 
+  try {
+      const PCollection = db.collection(providerCollection); 
+      
+      
+      const provider = await PCollection.findOne({ username: username });
+
+      
+      if (!provider) {
+          return res.status(404).json({ error: 'Provider not found' });
+      }
+
+      return res.json(provider.drivers)
+
+      
+  } 
+  catch (error) {
+      // Handle errors
+      console.log(error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+
+  finally{
+    await db.client.close();
+  }
+});
+
 
 //=============================================================================================================================================================
 //================= For Driver Aide side of database================================================================================================================
@@ -235,15 +326,41 @@ router.get("/getDriver/:driverId", async(req, res) => {
 
 //create driver Aide
 router.post("/createDriverAide", async(req,res)=>{
-  const {firstName,lastName,driverID,picture,address,city,state} = req.body
+  const {firstName,lastName,driverID,picture,address,city,state,providerUsername} = req.body
   const db = await(connection(DbName))
 
   try{
     const Collection = db.collection(AideCollection)
     const driver = await Collection.findOne({driverID:driverID})
     if(driver){
-      return res.status(400).json("Driver already exists")
+      return res.status(400).json("Driver Aide already exists")
     }
+
+    // Adding the new driver to our provider
+    const PCollection = db.collection(providerCollection)
+    const provider = await PCollection.findOne({username:providerUsername})
+
+    await PCollection.updateOne(
+        { username: providerUsername },
+        {
+          $push: {
+              driverAides: {
+                  firstName: firstName,
+                  lastName: lastName,
+                  driverID: driverID,
+                  picture: picture,
+                  address: address,
+                  city: city,
+                  state: state
+              }
+          }
+        }
+    )
+    if (!provider) {
+      return res.status(404).json({ error: "Provider not found" });
+    }
+
+
     const result = await Collection.insertOne({
       firstName:firstName,
       lastName:lastName,
@@ -252,11 +369,12 @@ router.post("/createDriverAide", async(req,res)=>{
       address:address,
       city:city,
       state:state
+
     })
     res.json(result)
   }
   catch(error){
-    res.status(500).json({ error: "Internal server error" })
+    res.status(500).json(error)
   }
   finally{
     await db.client.close()
@@ -283,6 +401,37 @@ router.get("/getDriverAide/:driverId", async(req, res) => {
   } 
   finally {
       await db.client.close();
+  }
+});
+
+// get all driver aides
+
+router.get('/getAllDriverAides', async (req, res) => {
+  const {username} = req.body;
+  const db = await connection(DbName);
+  try {
+      const PCollection = db.collection(providerCollection); 
+      
+      
+      const provider = await PCollection.findOne({ username: username });
+
+      
+      if (!provider) {
+          return res.status(404).json({ error: 'Provider not found' });
+      }
+
+      return res.json(provider.driverAides);
+
+      
+  } 
+  catch (error) {
+      // Handle errors
+      console.log(error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+
+  finally{
+    await db.client.close();
   }
 });
 module.exports = router

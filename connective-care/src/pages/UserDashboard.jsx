@@ -5,6 +5,7 @@ import { NavBar } from "../components/NavBar";
 import { Driver } from "../components/Driver";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
 import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filterDriverAidesByCompany } from "../data/driverData";
+import { updateUser } from "../components/dbCalls";
 
 
 const UserDashboard = () => {
@@ -29,6 +30,7 @@ const UserDashboard = () => {
 
     //we are using separate fields for the live input and the submitted input
     //use the submitted input for api calls since incomplete inputs from live vars will cause problems
+    const [username,setUsername] = useState(null);
     const [addressInput, setAddressInput] = useState(null);
     const [cityInput, setCityInput] = useState(null);
     const [stateInput, setStateInput] = useState(null);
@@ -36,10 +38,30 @@ const UserDashboard = () => {
     const [city, setCity] = useState(null);
     const [state, setState] = useState(null);
 
-    function updateAddress() {
+    async function updateAddress(e) {
+        e.preventDefault()
+        setUsername(Cookies.get('name'))
         setAddress(addressInput)
         setCity(cityInput)
         setState(stateInput)
+        
+        
+        const data = {
+            username:username,
+            address:address,
+            city:city,
+            state:state
+        }
+        
+        try{
+            const res = await updateUser(data)
+            alert("User Updated")
+        }
+        catch(error){
+            console.log(error)
+        }
+        
+
     }
 
     return(

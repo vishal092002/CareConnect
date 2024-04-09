@@ -11,7 +11,7 @@ const SignUp = () => {
     const [password,setPassword] = useState(null)
     const [confirmPassword, setConfirmPassword] = useState(null);
 
-    const passwordRegex = /(?=.+[a-z])(?=.+[A-Z])(?=.+[0-9])(?=.+[!@#$%^&*])/
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/
     const minimumPasswordLength = 8
 
     const navigate = useNavigate();

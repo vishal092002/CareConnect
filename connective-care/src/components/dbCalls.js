@@ -23,7 +23,6 @@ export const userLogin = async(data) =>{
             console.log(res.data.error)
         }
         else{
-            // ideally this part will have some functionality once logged in so we know who is logged in, but for now its used to test if the userlogin works
             alert("successful login")
             Cookies.set('status', true);
             Cookies.set('name', username);
@@ -32,6 +31,17 @@ export const userLogin = async(data) =>{
     })
 }
 
+export const updateUser = async(data) =>{
+    try {
+        const response = await axios.post(`${baseURL}/routes/updateUser`, data);
+        return response.data;
+    } catch (error) {
+        alert(error.response.data);
+        console.log(error.response);
+        throw error;
+    }
+
+}
 // For Providers
 export const providerSignup = async (data) =>{
     try{
@@ -61,3 +71,28 @@ export const providerLogin = async(data) =>{
 }
 
 // For Driver
+
+export const createDriver = async (data) => {
+    try {
+        const response = await axios.post(`${baseURL}/routes/createDriver`, data);
+        return response.data;
+    } catch (error) {
+        alert(error.response.data);
+        console.log(error.response);
+        throw error;
+    }
+};
+
+
+// For Driver Aide
+
+export const createDriverAide = async (data) => {
+    try {
+        const response = await axios.post(`${baseURL}/routes/createDriverAide`, data);
+        return response.data;
+    } catch (error) {
+        alert(error.response.data);
+        console.log(error.response);
+        throw error;
+    }
+};
