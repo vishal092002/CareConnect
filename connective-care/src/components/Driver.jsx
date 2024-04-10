@@ -1,9 +1,18 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 
 export function Driver(props) {
     const { firstName, lastName, company, id, photo, address, city, state, aid } = props;
+
+    const navigate = useNavigate();
+
+    const selectDriver = () => {
+        Cookies.set('driver', id);
+        navigate("/RequestForm");
+    }
 
     return(
         <div>
@@ -26,6 +35,11 @@ export function Driver(props) {
                     <Typography>ID: {id}</Typography>
                     <Typography>Address: {address}, {city}, {state}</Typography>
                 </Box>
+                {Cookies.get('type') == "user" ?
+                    <Button onClick={selectDriver}>test</Button>
+                    :
+                    <Box></Box>
+                }
             </Box>
         </div>
     )

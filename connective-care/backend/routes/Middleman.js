@@ -291,13 +291,16 @@ router.get("/getDriver/:driverId", async(req, res) => {
 
 // gets all drivers
 router.get('/getAllDrivers', async (req, res) => {
+  console.log(req.body.config);
   const {username} = req.body;
+  console.log(username);
   const db = await connection(DbName); 
   try {
       const PCollection = db.collection(providerCollection); 
       
       
       const provider = await PCollection.findOne({ username: username });
+      console.log(provider);
 
       
       if (!provider) {

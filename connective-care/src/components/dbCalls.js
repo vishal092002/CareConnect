@@ -82,9 +82,11 @@ export const createDriver = async (data) => {
     }
 };
 
-export const getAllDrivers = async () => {
+export const getAllDrivers = async (data) => {
+    console.log("data:" + data);
     try {
-        const response = await axios.get(`${baseURL}/routes/getAllDrivers`);
+        console.log("here")
+        const response = await axios.get(`${baseURL}/routes/getAllDrivers`, data);
         return response.data;
     } catch (error) {
         console.log(error.response);
