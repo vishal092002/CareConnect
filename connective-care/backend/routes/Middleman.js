@@ -291,7 +291,8 @@ router.get("/getDriver/:driverId", async(req, res) => {
 
 // gets all drivers
 router.get('/getAllDrivers', async (req, res) => {
-  const {username} = req.body;
+  const {username} = req.query;
+  console.log(username)
   const db = await connection(DbName); 
   try {
       const PCollection = db.collection(providerCollection); 
@@ -405,7 +406,7 @@ router.get("/getDriverAide/:driverId", async(req, res) => {
 
 // get all driver aides
 router.get('/getAllDriverAides', async (req, res) => {
-  const {username} = req.body;
+  const {username} = req.query;
   const db = await connection(DbName);
   try {
       const PCollection = db.collection(providerCollection); 

@@ -82,13 +82,13 @@ export const createDriver = async (data) => {
     }
 };
 
-export const getAllDrivers = async () => {
+export const getAllDrivers = async (data) => {
     try {
-        const response = await axios.get(`${baseURL}/routes/getAllDrivers`);
+        const response = await axios.get(`${baseURL}/routes/getAllDrivers`,{params:{username:data}});
         return response.data;
     } catch (error) {
         console.log(error.response);
-        throw error;
+        
     }
 };
 
@@ -115,9 +115,9 @@ export const createDriverAide = async (data) => {
 };
 
 
-export const getAllDriversAides = async () => {
+export const getAllDriversAides = async (data) => {
     try {
-        const response = await axios.get(`${baseURL}/routes/getAllDriverAides`);
+        const response = await axios.get(`${baseURL}/routes/getAllDriverAides`,{params:{username:data}});
         return response.data;
     } catch (error) {
         console.log(error.response);
