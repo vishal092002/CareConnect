@@ -6,7 +6,7 @@ import { NavBar } from "../components/NavBar";
 import { Driver } from "../components/Driver";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
 import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filterDriverAidesByCompany } from "../data/driverData";
-import { createDriver, createDriverAide } from "../components/dbCalls";
+import { createDriver, createDriverAide, getAllDrivers } from "../components/dbCalls";
 
 const ProviderDashboard = () => {
 
@@ -21,7 +21,12 @@ const ProviderDashboard = () => {
         else if (Cookies.get('type') == "user") {
             navigate("/UserDashboard");
         }
+        setCompanyName(Cookies.get('name'));
     });
+
+    const testfunc = () => {
+        const dbDrivers = getAllDrivers({companyName});
+    }
 
     displayAllDrivers(drivers);
 
@@ -39,7 +44,8 @@ const ProviderDashboard = () => {
 
     async function submit(e) {
         e.preventDefault()
-        setCompanyName(Cookies.get('name'));
+        //setCompanyName(Cookies.get('name'));
+        console.log(companyName);
         if (tabValue == 0) {
             const data = {
                 firstName:firstName,
@@ -292,6 +298,7 @@ const ProviderDashboard = () => {
                     ))}
                 </Box>
             </Box>
+            <Button onClick={testfunc}>test</Button>
         </div>
         
     )

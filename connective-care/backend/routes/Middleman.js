@@ -299,6 +299,7 @@ router.get('/getAllDrivers', async (req, res) => {
       
       
       const provider = await PCollection.findOne({ username: username });
+      console.log(provider);
 
       
       if (!provider) {
