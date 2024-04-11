@@ -6,7 +6,7 @@ import { NavBar } from "../components/NavBar";
 import { Driver } from "../components/Driver";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
 import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filterDriverAidesByCompany } from "../data/driverData";
-import { createDriver, createDriverAide, getAllDrivers } from "../components/dbCalls";
+import { createDriver, createDriverAide, getAllDrivers, getAllDriversAides } from "../components/dbCalls";
 
 const ProviderDashboard = () => {
 
@@ -24,8 +24,10 @@ const ProviderDashboard = () => {
         setCompanyName(Cookies.get('name'));
     });
 
-    const testfunc = () => {
-        const dbDrivers = getAllDrivers({companyName});
+    const testfunc = async () => {
+        const dbDrivers = await getAllDrivers(companyName);
+        const dbDriverAides = await getAllDriversAides(companyName)
+        console.log(dbDrivers,dbDriverAides)
     }
 
     displayAllDrivers(drivers);
