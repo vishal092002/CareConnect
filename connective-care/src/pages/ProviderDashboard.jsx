@@ -24,11 +24,16 @@ const ProviderDashboard = () => {
         setCompanyName(Cookies.get('name'));
     });
 
+    const [dbDrivers, setDbDrivers] = useState([]);
+
     const testfunc = async () => {
-        const dbDrivers = await getAllDrivers(companyName);
+        //const dbDrivers = await getAllDrivers(companyName);
+        setDbDrivers(await getAllDrivers(companyName));
         const dbDriverAides = await getAllDriversAides(companyName)
         console.log(dbDrivers,dbDriverAides)
     }
+
+    //displayAllDrivers(drivers);
 
     displayAllDrivers(drivers);
 
@@ -258,13 +263,13 @@ const ProviderDashboard = () => {
                     width: "50%"
                 }}>
                     <h1>All Drivers</h1>
-                    {drivers.map(driver => (
+                    {dbDrivers.map(driver => (
                         <Driver
                             firstName={driver.firstName}
                             lastName={driver.lastName}
                             company={driver.companyName}
-                            id={driver.idNumber}
-                            photo={driver.profilePicture}
+                            id={driver.driverID}
+                            photo={driver.picture}
                             address={driver.address}
                             city={driver.city}
                             state={driver.state}
