@@ -22,6 +22,44 @@ const UserDashboard = () => {
             navigate("/ProviderDashboard");
         }
     });
+    const [currentLocation, setCurrentLocation] = useState({
+        address: '',
+        latitude: null,
+        longitude: null
+    });
+
+    useEffect(() => {
+        const getCurrentLocation = () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        const { latitude, longitude } = position.coords;
+                        const { address, latitude: lat, longitude: lon } = await getAddressFromCoordinates(latitude, longitude);
+                        setCurrentLocation({ address, latitude: lat, longitude: lon });
+                    },
+                    (error) => {
+                        console.error('Error getting user location:', error);
+                    }
+                );
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+            }
+        };
+
+        const getAddressFromCoordinates = async (latitude, longitude) => {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
+                const data = await response.json();
+                const address = `${data.display_name}`;
+                return { address, latitude, longitude };
+            } catch (error) {
+                console.error('Error fetching address:', error);
+                return { address: 'Address not found', latitude: null, longitude: null };
+            }
+        };
+
+        getCurrentLocation();
+    }, []);
 
     displayAllDrivers(drivers);
 
@@ -54,7 +92,7 @@ const UserDashboard = () => {
         }
         
         try{
-            const res = await updateUser(data)
+            //const res = await updateUser(data)
             alert("User Updated")
         }
         catch(error){
@@ -87,8 +125,13 @@ const UserDashboard = () => {
                         variant="h2" 
                         paddingBottom={"8vh"}
                     >
-                        Welcome, {Cookies.get('name')}
+                        Welcome, {Cookies.get('name')}   
                     </Typography>
+                    {currentLocation.address ? (
+                        <p>{currentLocation.address}</p>
+                    ) : (
+                        <p>Fetching user's current address...</p>
+                    )}
                     <Box className="addressBox" sx={{
                         width: "50%",
                         height: "50%",
@@ -158,6 +201,7 @@ const UserDashboard = () => {
                             address={driver.address}
                             city={driver.city}
                             state={driver.state}
+                            currentLocation={currentLocation}
                         />
                     ))}
                     <h1>Driver Details</h1>
@@ -172,6 +216,7 @@ const UserDashboard = () => {
                             address={driver.address}
                             city={driver.city}
                             state={driver.state}
+                            currentLocation={currentLocation}
                         />
                     ))}
                     <h2>Filtered Driver Aides</h2>
@@ -186,6 +231,7 @@ const UserDashboard = () => {
                             city={driverAide.city}
                             state={driverAide.state}
                             aid={true}
+                            currentLocation={currentLocation}
                         />
                     ))}
                 </Box>
