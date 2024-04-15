@@ -262,7 +262,8 @@ router.post("/createDriver", async(req,res)=>{
       picture:picture,
       address:address,
       city:city,
-      state:state
+      state:state,
+      provider:providerUsername
 
     })
     res.json(result)
@@ -295,6 +296,18 @@ router.get("/getDriver/:driverId", async(req, res) => {
   } 
   finally {
       await db.client.close();
+  }
+});
+
+//get all drivers from driver db specifically
+router.get('/getDrivers', async (req, res) => {
+  try {
+      const db = await connection(DbName);
+      const Collection = db.collection(driverCollection);
+      const drivers = await Collection.find({}).toArray();
+      res.json(drivers);
+  } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -378,7 +391,8 @@ router.post("/createDriverAide", async(req,res)=>{
       picture:picture,
       address:address,
       city:city,
-      state:state
+      state:state,
+      provider:providerUsername
 
     })
     res.json(result)
@@ -411,6 +425,18 @@ router.get("/getDriverAide/:driverId", async(req, res) => {
   } 
   finally {
       await db.client.close();
+  }
+});
+
+//get all drivers specifically from driver aides db
+router.get('/getDriverAides', async (req, res) => {
+  try {
+      const db = await connection(DbName);
+      const Collection = db.collection(AideCollection);
+      const drivers = await Collection.find({}).toArray();
+      res.json(drivers);
+  } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
   }
 });
 
