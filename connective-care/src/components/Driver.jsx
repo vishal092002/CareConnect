@@ -5,12 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 
 export function Driver(props) {
-    const { firstName, lastName, company, id, photo, address, city, state, aid } = props;
+    const { firstName, lastName, company, id, photo, address, city, state, aid, currentLocation } = props;
     const [duration, setDuration] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (currentLocation.latitude && currentLocation.longitude) {
+        if (Cookies.get('type') == "provider") {
+            //don't run location check
+        }
+        else if (currentLocation.latitude && currentLocation.longitude) {
             calculateDuration();
         }
     }, [currentLocation]);
@@ -80,13 +83,16 @@ export function Driver(props) {
                     <Typography>Company: {company}</Typography>
                     <Typography>ID: {id}</Typography>
                     <Typography>Address: {address}, {city}, {state}</Typography>
-                    {loading ? (
-                        <Typography>Duration to reach user's location: Calculating...</Typography>
-                    ) : duration !== null ? (
-                        <Typography>Duration to reach user's location: {duration} minutes</Typography>
-                    ) : (
-                        <Typography>Unable to calculate the duration.</Typography>
-                    )}
+                    {Cookies.get('type') == "user" ? (
+                        loading ? (
+                            <Typography>Duration to reach user's location: Calculating...</Typography>
+                        ) : duration !== null ? (
+                            <Typography>Duration to reach user's location: {duration} minutes</Typography>
+                        ) : (
+                            <Typography>Unable to calculate the duration.</Typography>
+                        ))
+                        : <Box></Box>
+                    }
                 </Box>
                 {Cookies.get('type') == "user" ?
                     <Button onClick={selectDriver}>test</Button>

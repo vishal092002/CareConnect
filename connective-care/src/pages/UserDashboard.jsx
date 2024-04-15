@@ -92,7 +92,7 @@ const UserDashboard = () => {
         }
         
         try{
-            const res = await updateUser(data)
+            //const res = await updateUser(data)
             alert("User Updated")
         }
         catch(error){
