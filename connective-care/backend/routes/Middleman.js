@@ -111,9 +111,9 @@ router.post("/userLogin",async(req,res)=>{
   
 })
 
-// update user Address
+// update user Address and other fields based on user REQUEST
 router.post("/updateUser", async (req,res) =>{
-  const {username,address,city,state} = req.body
+  const {username,address,city,state,destinationAddress,destinationCity,destinationState,medical,mobility,obstacle,weight,communication,caregiver,other} = req.body
   const db = await connection(DbName)
   const Collection = db.collection('users')
 
@@ -122,14 +122,23 @@ router.post("/updateUser", async (req,res) =>{
     if(!user){
       return res.status(404).json({ error: "User not found" })
     }
-
     const result = await Collection.updateOne(
       {username:username},
       {
         $set:{
           address:address,
           city:city,
-          state:state
+          state:state,
+          destinationAddress:destinationAddress,
+          destinationCity:destinationCity,
+          destinationState:destinationState,
+          medical:medical,
+          mobility:mobility,
+          obstacle:obstacle,
+          weight:weight,
+          communication:communication,
+          caregiver:caregiver,
+          other:other
         }
       }
     )

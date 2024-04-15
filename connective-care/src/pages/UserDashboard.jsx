@@ -54,8 +54,16 @@ const UserDashboard = () => {
         }
         
         try{
-            const res = await updateUser(data)
-            alert("User Updated")
+            // April 14th
+            // Update User DB Call was removed
+            // The Dashboard GUI was not touched
+            // I didn't touch any of the const [] variables above
+            // For the form onSubmit={}, this is still referenced
+            // However, it doesn't do anything
+            // This whole User Dashboard form needs work
+
+            // const res = await updateUser(data)
+            // alert("User Updated")
         }
         catch(error){
             console.log(error)
