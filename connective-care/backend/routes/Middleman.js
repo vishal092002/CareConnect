@@ -111,9 +111,9 @@ router.post("/userLogin",async(req,res)=>{
   
 })
 
-// update user Address
+// update user Address and other fields based on user REQUEST
 router.post("/updateUser", async (req,res) =>{
-  const {username,address,city,state} = req.body
+  const {username,address,city,state,destinationAddress,destinationCity,destinationState,medical,mobility,obstacle,weight,communication,caregiver,other} = req.body
   const db = await connection(DbName)
   const Collection = db.collection('users')
 
@@ -122,14 +122,23 @@ router.post("/updateUser", async (req,res) =>{
     if(!user){
       return res.status(404).json({ error: "User not found" })
     }
-
     const result = await Collection.updateOne(
       {username:username},
       {
         $set:{
           address:address,
           city:city,
-          state:state
+          state:state,
+          destinationAddress:destinationAddress,
+          destinationCity:destinationCity,
+          destinationState:destinationState,
+          medical:medical,
+          mobility:mobility,
+          obstacle:obstacle,
+          weight:weight,
+          communication:communication,
+          caregiver:caregiver,
+          other:other
         }
       }
     )
@@ -253,7 +262,8 @@ router.post("/createDriver", async(req,res)=>{
       picture:picture,
       address:address,
       city:city,
-      state:state
+      state:state,
+      provider:providerUsername
 
     })
     res.json(result)
@@ -286,6 +296,18 @@ router.get("/getDriver/:driverId", async(req, res) => {
   } 
   finally {
       await db.client.close();
+  }
+});
+
+//get all drivers from driver db specifically
+router.get('/getDrivers', async (req, res) => {
+  try {
+      const db = await connection(DbName);
+      const Collection = db.collection(driverCollection);
+      const drivers = await Collection.find({}).toArray();
+      res.json(drivers);
+  } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -369,7 +391,8 @@ router.post("/createDriverAide", async(req,res)=>{
       picture:picture,
       address:address,
       city:city,
-      state:state
+      state:state,
+      provider:providerUsername
 
     })
     res.json(result)
@@ -402,6 +425,18 @@ router.get("/getDriverAide/:driverId", async(req, res) => {
   } 
   finally {
       await db.client.close();
+  }
+});
+
+//get all drivers specifically from driver aides db
+router.get('/getDriverAides', async (req, res) => {
+  try {
+      const db = await connection(DbName);
+      const Collection = db.collection(AideCollection);
+      const drivers = await Collection.find({}).toArray();
+      res.json(drivers);
+  } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
   }
 });
 

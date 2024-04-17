@@ -21,6 +21,7 @@ const RequestForm = () => {
         else if (Cookies.get('type') == "provider") {
             navigate("/ProviderDashboard");
         }
+        setUsername(Cookies.get('name'));
     });
 
     //we are using separate fields for the live input and the submitted input
@@ -35,15 +36,77 @@ const RequestForm = () => {
     const [communication, setCommunication] = useState(null);
     const [caregiver, setCaregiver] = useState(null);
     const [other, setOther] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [address, setAddress] = useState(null);
+    const [city, setCity] = useState(null);
+    const [state, setState] = useState(null);
 
     async function submitRequest(e) {
         e.preventDefault()
-        /*copied from userdashboard:
+        setUsername(Cookies.get('name'))
+        /*
+        For testing functionality, setAddress/City/State null is good for now
+        Once we finish processing the API, send those values into these variables
+        */
+        setAddress(Cookies.get('address'))
+        setCity(Cookies.get('city'))
+        setState(Cookies.get('state'))
+
+        /*
+        Essential Fields Include:
+        Destination Address/City/State
+        Medical Information
+        Mobility Information
+        Weight
+        */
+        if (destinationAddress == null || destinationAddress == ''){
+            alert("Please enter a destination address")
+            return
+        }
+        if (destinationCity == null || destinationCity == ''){
+            alert("Please enter a destination city")
+            return
+        }
+        if (destinationState == null || destinationState == ''){
+            alert("Please enter a destination state")
+            return
+        }
+        if (medical == null || medical == ''){
+            alert("Please enter if you have any medical conditions")
+            return
+        }
+        if (mobility == null || mobility == ''){
+            alert("Please enter if you have any mobility needs")
+            return
+        }
+        if (weight == null || weight == ''){
+            alert("Please enter your weight")
+            return
+        }
+
+        /*
+        NULLABLE (If Applicable) Fields Include:
+        Obstacles
+        Communication Needs
+        Caregiver Information
+        Other
+        */
+
         const data = {
             username:username,
             address:address,
             city:city,
-            state:state
+            state:state,
+            destinationAddress:destinationAddress,
+            destinationCity:destinationCity,
+            destinationState:destinationState,
+            medical:medical,
+            mobility:mobility,
+            obstacle:obstacle,
+            weight:weight,
+            communication:communication,
+            caregiver:caregiver,
+            other:other
         }
         
         try{
@@ -53,7 +116,6 @@ const RequestForm = () => {
         catch(error){
             console.log(error)
         }
-        */
 
         //Part 1: Update user information based on form input
 
@@ -169,7 +231,7 @@ const RequestForm = () => {
                                     rows={4}
                                 />
                                 <InputLabel>
-                                    Are there any obstacles (such as stairs) at your pickup location that we should be aware of?
+                                    Are there any obstacles (such as stairs) at your pickup location that we should be aware of? (If Applicable)
                                 </InputLabel>
                                 <TextField
                                     onChange={(e) => setObstacle(e.target.value)}
@@ -184,7 +246,7 @@ const RequestForm = () => {
                                     onChange={(e) => setWeight(e.target.value)}
                                 />
                                 <InputLabel>
-                                    Do you have any special communication needs that we should be aware of?
+                                    Do you have any special communication needs that we should be aware of? (If Applicable)
                                 </InputLabel>
                                 <TextField
                                     onChange={(e) => setCommunication(e.target.value)}
@@ -193,7 +255,7 @@ const RequestForm = () => {
                                     rows={4}
                                 />
                                 <InputLabel>
-                                    Do you have a caregiver that will accompany you? If so, list them here.
+                                    Do you have a caregiver that will accompany you? If so, list them here. (If Applicable)
                                 </InputLabel>
                                 <TextField
                                     onChange={(e) => setCaregiver(e.target.value)}
@@ -202,7 +264,7 @@ const RequestForm = () => {
                                     rows={4}
                                 />
                                 <InputLabel>
-                                    Is there any other important information you'd like us to know?
+                                    Is there any other important information you'd like us to know? (If Applicable)
                                 </InputLabel>
                                 <TextField
                                     onChange={(e) => setOther(e.target.value)}

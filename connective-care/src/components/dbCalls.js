@@ -92,6 +92,15 @@ export const getAllDrivers = async (data) => {
     }
 };
 
+export const getDrivers = async () => {
+    try {
+        const response = await axios.get(`${baseURL}/routes/getDrivers`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const getDriverById = async (driverId) => {
     try {
         const response = await axios.get(`${baseURL}/routes/getDriver/${driverId}`);
@@ -121,6 +130,15 @@ export const getAllDriversAides = async (data) => {
         return response.data;
     } catch (error) {
         console.log(error.response);
+        throw error;
+    }
+};
+
+export const getDriverAides = async () => {
+    try {
+        const response = await axios.get(`${baseURL}/routes/getDriverAides`);
+        return response.data;
+    } catch (error) {
         throw error;
     }
 };

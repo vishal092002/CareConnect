@@ -6,7 +6,7 @@ import { NavBar } from "../components/NavBar";
 import { Driver } from "../components/Driver";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
 import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filterDriverAidesByCompany } from "../data/driverData";
-import { createDriver, createDriverAide, getAllDrivers, getAllDriversAides } from "../components/dbCalls";
+import { createDriver, createDriverAide, getAllDrivers, getAllDriversAides, getDrivers, getDriverAides } from "../components/dbCalls";
 
 const ProviderDashboard = () => {
 
@@ -28,8 +28,9 @@ const ProviderDashboard = () => {
 
     const testfunc = async () => {
         //const dbDrivers = await getAllDrivers(companyName);
-        setDbDrivers(await getAllDrivers(companyName));
-        const dbDriverAides = await getAllDriversAides(companyName)
+        //setDbDrivers(await getAllDrivers(companyName));
+        const dbDrivers = await getDrivers();
+        const dbDriverAides = await getDriverAides()
         console.log(dbDrivers,dbDriverAides)
     }
 
