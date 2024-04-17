@@ -5,7 +5,7 @@ import { NavBar } from "../components/NavBar";
 import { Driver } from "../components/Driver";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
 import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filterDriverAidesByCompany } from "../data/driverData";
-import { updateUser } from "../components/dbCalls";
+import { updateUser, getDriverById } from "../components/dbCalls";
 
 
 const RequestForm = () => {
@@ -24,8 +24,6 @@ const RequestForm = () => {
         setUsername(Cookies.get('name'));
     });
 
-    //we are using separate fields for the live input and the submitted input
-    //use the submitted input for api calls since incomplete inputs from live vars will cause problems
     const [destinationAddress,setDestinationAddress] = useState(null);
     const [destinationCity, setDestinationCity] = useState(null);
     const [destinationState, setDestinationState] = useState(null);
@@ -44,13 +42,6 @@ const RequestForm = () => {
     async function submitRequest(e) {
         e.preventDefault()
         setUsername(Cookies.get('name'))
-        /*
-        For testing functionality, setAddress/City/State null is good for now
-        Once we finish processing the API, send those values into these variables
-        */
-        setAddress(Cookies.get('address'))
-        setCity(Cookies.get('city'))
-        setState(Cookies.get('state'))
 
         /*
         Essential Fields Include:
@@ -171,8 +162,8 @@ const RequestForm = () => {
                         Please enter or update this information.
                     </Typography>
                     <Box className="formBox" sx={{
-                        width: "70%",
-                        height: "80%",
+                        minWidth: "70%",
+                        minHeight: "80%",
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",
@@ -194,24 +185,60 @@ const RequestForm = () => {
                                 Request Details
                             </Typography>
                             <form onSubmit={submitRequest}>
-                                <InputLabel>
-                                    Destination Address
-                                </InputLabel>
-                                <TextField
-                                    onChange={(e) => setDestinationAddress(e.target.value)}
-                                />
-                                <InputLabel>
-                                    Destination City
-                                </InputLabel>
-                                <TextField
-                                    onChange={(e) => setDestinationCity(e.target.value)}
-                                />
-                                <InputLabel>
-                                    Destination State
-                                </InputLabel>
-                                <TextField
-                                    onChange={(e) => setDestinationState(e.target.value)}
-                                />
+                                <Box className="addressHolder" sx={{
+                                    display: "flex",
+                                    alignItems: "row",
+                                    flexDirection: "row",
+                                    justifyContent: "center"
+                                }}>
+                                    <Box className="pickup" sx={{
+                                        display: "flex",
+                                        flexDirection: "column"
+                                    }}>
+                                        <InputLabel>
+                                            Pickup Address
+                                        </InputLabel>
+                                        <TextField
+                                            onChange={(e) => setAddress(e.target.value)}
+                                        />
+                                        <InputLabel>
+                                            Pickup City
+                                        </InputLabel>
+                                        <TextField
+                                            onChange={(e) => setCity(e.target.value)}
+                                        />
+                                        <InputLabel>
+                                            Pickup State
+                                        </InputLabel>
+                                        <TextField
+                                            onChange={(e) => setState(e.target.value)}
+                                        />
+                                    </Box>
+                                    <Box width={"5vh"} />
+                                    <Box className="destination" sx={{
+                                        display: "flex",
+                                        flexDirection: "column"
+                                    }}>
+                                        <InputLabel>
+                                            Destination Address
+                                        </InputLabel>
+                                        <TextField
+                                            onChange={(e) => setDestinationAddress(e.target.value)}
+                                        />
+                                        <InputLabel>
+                                            Destination City
+                                        </InputLabel>
+                                        <TextField
+                                            onChange={(e) => setDestinationCity(e.target.value)}
+                                        />
+                                        <InputLabel>
+                                            Destination State
+                                        </InputLabel>
+                                        <TextField
+                                            onChange={(e) => setDestinationState(e.target.value)}
+                                        />
+                                    </Box>
+                                </Box>
                                 <InputLabel>
                                     List all relevant information about your medical condition.
                                 </InputLabel>
@@ -231,7 +258,7 @@ const RequestForm = () => {
                                     rows={4}
                                 />
                                 <InputLabel>
-                                    Are there any obstacles (such as stairs) at your pickup location that we should be aware of? (If Applicable)
+                                    Are there any obstacles (such as stairs) at your pickup location that we should be aware of?
                                 </InputLabel>
                                 <TextField
                                     onChange={(e) => setObstacle(e.target.value)}
@@ -246,7 +273,7 @@ const RequestForm = () => {
                                     onChange={(e) => setWeight(e.target.value)}
                                 />
                                 <InputLabel>
-                                    Do you have any special communication needs that we should be aware of? (If Applicable)
+                                    Do you have any special communication needs that we should be aware of?
                                 </InputLabel>
                                 <TextField
                                     onChange={(e) => setCommunication(e.target.value)}
@@ -255,7 +282,7 @@ const RequestForm = () => {
                                     rows={4}
                                 />
                                 <InputLabel>
-                                    Do you have a caregiver that will accompany you? If so, list them here. (If Applicable)
+                                    Do you have a caregiver that will accompany you? If so, list them here.
                                 </InputLabel>
                                 <TextField
                                     onChange={(e) => setCaregiver(e.target.value)}
@@ -264,7 +291,7 @@ const RequestForm = () => {
                                     rows={4}
                                 />
                                 <InputLabel>
-                                    Is there any other important information you'd like us to know? (If Applicable)
+                                    Is there any other important information you'd like us to know?
                                 </InputLabel>
                                 <TextField
                                     onChange={(e) => setOther(e.target.value)}
