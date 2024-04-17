@@ -245,7 +245,8 @@ router.post("/createDriver", async(req,res)=>{
                   picture: picture,
                   address: address,
                   city: city,
-                  state: state
+                  state: state,
+                  provider:providerUsername
               }
           }
         }

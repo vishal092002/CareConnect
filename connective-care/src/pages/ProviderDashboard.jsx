@@ -31,12 +31,10 @@ const ProviderDashboard = () => {
         setDbDrivers(await getAllDrivers(companyName));
         //const dbDrivers = await getDrivers();
         const dbDriverAides = await getDriverAides()
-        console.log(dbDrivers,dbDriverAides)
+        console.log(dbDrivers)
     }
 
     //displayAllDrivers(drivers);
-
-    displayAllDrivers(drivers);
 
     const filteredDrivers = filterDriversByCompany('ABC Taxi');
     const filteredDriverAides = filterDriverAidesByCompany('ABC Taxi');
@@ -53,7 +51,7 @@ const ProviderDashboard = () => {
     async function submit(e) {
         e.preventDefault()
         //setCompanyName(Cookies.get('name'));
-        console.log(companyName);
+        console.log("name " + companyName);
         if (tabValue === 0) {
             const data = {
                 firstName:firstName,
@@ -268,7 +266,7 @@ const ProviderDashboard = () => {
                         <Driver
                             firstName={driver.firstName}
                             lastName={driver.lastName}
-                            company={driver.companyName}
+                            company={driver.provider}
                             id={driver.driverID}
                             photo={driver.picture}
                             address={driver.address}
@@ -282,7 +280,7 @@ const ProviderDashboard = () => {
                         <Driver
                             firstName={driver.firstName}
                             lastName={driver.lastName}
-                            company={driver.companyName}
+                            company={driver.provider}
                             id={driver.idNumber}
                             photo={driver.profilePicture}
                             address={driver.address}
@@ -295,7 +293,7 @@ const ProviderDashboard = () => {
                         <Driver
                             firstName={driverAide.firstName}
                             lastName={driverAide.lastName}
-                            company={driverAide.companyName}
+                            company={driverAide.provider}
                             id={driverAide.idNumber}
                             photo={driverAide.profilePicture}
                             address={driverAide.address}
