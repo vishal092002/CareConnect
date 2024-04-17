@@ -22,9 +22,13 @@ const ProviderDashboard = () => {
             navigate("/UserDashboard");
         }
         setCompanyName(Cookies.get('name'));
+        if (companyName != null) {
+            pullDrivers();
+        }
     });
 
     const [dbDrivers, setDbDrivers] = useState([]);
+    const [dbDriverAides, setDbDriverAides] = useState([]);
 
     const testfunc = async () => {
         //const dbDrivers = await getAllDrivers(companyName);
@@ -32,6 +36,11 @@ const ProviderDashboard = () => {
         //const dbDrivers = await getDrivers();
         const dbDriverAides = await getDriverAides()
         console.log(dbDrivers)
+    }
+
+    const pullDrivers = async () => {
+        setDbDrivers(await getAllDrivers(companyName));
+        setDbDriverAides(await getAllDriversAides(companyName));
     }
 
     //displayAllDrivers(drivers);
@@ -261,8 +270,8 @@ const ProviderDashboard = () => {
                 <Box className="driverBox" sx={{
                     width: "50%"
                 }}>
-                    <h1>All Drivers</h1>
-                    {dbDrivers.map(driver => (
+                    <h1>Your Drivers</h1>
+                    {dbDrivers?.map(driver => (
                         <Driver
                             firstName={driver.firstName}
                             lastName={driver.lastName}
@@ -274,22 +283,8 @@ const ProviderDashboard = () => {
                             state={driver.state}
                         />
                     ))}
-                    <h1>Driver Details</h1>
-                    <h2>Filtered Drivers</h2>
-                    {filteredDrivers.map(driver => (
-                        <Driver
-                            firstName={driver.firstName}
-                            lastName={driver.lastName}
-                            company={driver.provider}
-                            id={driver.idNumber}
-                            photo={driver.profilePicture}
-                            address={driver.address}
-                            city={driver.city}
-                            state={driver.state}
-                        />
-                    ))}
-                    <h2>Filtered Driver Aides</h2>
-                    {filteredDriverAides.map(driverAide => (
+                    <h1>Your Driver Aides</h1>
+                    {dbDriverAides?.map(driverAide => (
                         <Driver
                             firstName={driverAide.firstName}
                             lastName={driverAide.lastName}
@@ -304,7 +299,6 @@ const ProviderDashboard = () => {
                     ))}
                 </Box>
             </Box>
-            <Button onClick={testfunc}>test</Button>
         </div>
         
     )
