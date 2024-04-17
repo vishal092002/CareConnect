@@ -94,8 +94,9 @@ export function Driver(props) {
                         : <Box></Box>
                     }
                 </Box>
+                <Box width={"3vh"} />
                 {Cookies.get('type') === "user" ?
-                    <Button onClick={selectDriver}>test</Button>
+                    <Button variant="contained" onClick={selectDriver}>Select</Button>
                     :
                     <Box></Box>
                 }

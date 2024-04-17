@@ -5,7 +5,7 @@ import { NavBar } from "../components/NavBar";
 import { Driver } from "../components/Driver";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
 import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filterDriverAidesByCompany } from "../data/driverData";
-import { updateUser } from "../components/dbCalls";
+import { updateUser, getDrivers, getDriverAides } from "../components/dbCalls";
 
 
 const UserDashboard = () => {
@@ -21,7 +21,9 @@ const UserDashboard = () => {
         else if (Cookies.get('type') === "provider") {
             navigate("/ProviderDashboard");
         }
+        pullDrivers();
     });
+
     const [currentLocation, setCurrentLocation] = useState({
         address: '',
         latitude: null,
@@ -61,10 +63,13 @@ const UserDashboard = () => {
         getCurrentLocation();
     }, []);
 
-    displayAllDrivers(drivers);
+    const [dbDrivers, setDbDrivers] = useState([]);
+    const [dbDriverAides, setDbDriverAides] = useState([]);
 
-    const filteredDrivers = filterDriversByCompany('ABC Taxi');
-    const filteredDriverAides = filterDriverAidesByCompany('ABC Taxi');
+    const pullDrivers = async () => {
+        setDbDrivers(await getDrivers());
+        setDbDriverAides(await getDriverAides());
+    }
 
     //we are using separate fields for the live input and the submitted input
     //use the submitted input for api calls since incomplete inputs from live vars will cause problems
@@ -107,7 +112,7 @@ const UserDashboard = () => {
             <NavBar />
             <Box className="boundingBox" sx={{
                 width: "100%",
-                height: "100vh",
+                minHeight: "100vh",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -132,7 +137,7 @@ const UserDashboard = () => {
                     ) : (
                         <p>Fetching user's current address...</p>
                     )}
-                    <Box className="addressBox" sx={{
+                    {/*<Box className="addressBox" sx={{
                         width: "50%",
                         height: "50%",
                         display: "flex",
@@ -184,19 +189,19 @@ const UserDashboard = () => {
                                 </Box>
                             </form>
                         </Box>
-                    </Box>
+                    </Box>*/}
                 </Box>
                 
                 <Box className="driverBox" sx={{
                     width: "50%"
                 }}>
                     <h1>All Drivers</h1>
-                    {drivers.map(driver => (
+                    {dbDrivers?.map(driver => (
                         <Driver
                             firstName={driver.firstName}
                             lastName={driver.lastName}
-                            company={driver.companyName}
-                            id={driver.idNumber}
+                            company={driver.provider}
+                            id={driver.driverID}
                             photo={driver.profilePicture}
                             address={driver.address}
                             city={driver.city}
@@ -204,23 +209,8 @@ const UserDashboard = () => {
                             currentLocation={currentLocation}
                         />
                     ))}
-                    <h1>Driver Details</h1>
-                    <h2>Filtered Drivers</h2>
-                    {filteredDrivers.map(driver => (
-                        <Driver
-                            firstName={driver.firstName}
-                            lastName={driver.lastName}
-                            company={driver.companyName}
-                            id={driver.idNumber}
-                            photo={driver.profilePicture}
-                            address={driver.address}
-                            city={driver.city}
-                            state={driver.state}
-                            currentLocation={currentLocation}
-                        />
-                    ))}
-                    <h2>Filtered Driver Aides</h2>
-                    {filteredDriverAides.map(driverAide => (
+                    <h1>All Driver Aides</h1>
+                    {dbDriverAides?.map(driverAide => (
                         <Driver
                             firstName={driverAide.firstName}
                             lastName={driverAide.lastName}

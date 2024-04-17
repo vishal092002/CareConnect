@@ -318,11 +318,11 @@ router.get('/getAllDrivers', async (req, res) => {
   console.log(username)
   const db = await connection(DbName); 
   try {
-      const PCollection = db.collection(providerCollection); 
+      //const PCollection = db.collection(providerCollection); 
       
       
       const provider = await PCollection.findOne({ username: username });
-      console.log(provider);
+      //console.log(provider);
 
       
       if (!provider) {
