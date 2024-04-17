@@ -18,7 +18,7 @@ const RequestForm = () => {
         if (!Cookies.get('status')) {
             navigate("/SignIn");
         }
-        else if (Cookies.get('type') == "provider") {
+        else if (Cookies.get('type') === "provider") {
             navigate("/ProviderDashboard");
         }
         setUsername(Cookies.get('name'));
@@ -59,27 +59,27 @@ const RequestForm = () => {
         Mobility Information
         Weight
         */
-        if (destinationAddress == null || destinationAddress == ''){
+        if (destinationAddress === null || destinationAddress === ''){
             alert("Please enter a destination address")
             return
         }
-        if (destinationCity == null || destinationCity == ''){
+        if (destinationCity === null || destinationCity === ''){
             alert("Please enter a destination city")
             return
         }
-        if (destinationState == null || destinationState == ''){
+        if (destinationState === null || destinationState === ''){
             alert("Please enter a destination state")
             return
         }
-        if (medical == null || medical == ''){
+        if (medical === null || medical === ''){
             alert("Please enter if you have any medical conditions")
             return
         }
-        if (mobility == null || mobility == ''){
+        if (mobility === null || mobility === ''){
             alert("Please enter if you have any mobility needs")
             return
         }
-        if (weight == null || weight == ''){
+        if (weight === null || weight === ''){
             alert("Please enter your weight")
             return
         }

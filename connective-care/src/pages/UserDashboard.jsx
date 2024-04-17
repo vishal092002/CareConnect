@@ -18,7 +18,7 @@ const UserDashboard = () => {
         if (!Cookies.get('status')) {
             navigate("/SignIn");
         }
-        else if (Cookies.get('type') == "provider") {
+        else if (Cookies.get('type') === "provider") {
             navigate("/ProviderDashboard");
         }
     });

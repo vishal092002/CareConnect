@@ -10,7 +10,7 @@ export function Driver(props) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (Cookies.get('type') == "provider") {
+        if (Cookies.get('type') === "provider") {
             //don't run location check
         }
         else if (currentLocation.latitude && currentLocation.longitude) {
@@ -83,7 +83,7 @@ export function Driver(props) {
                     <Typography>Company: {company}</Typography>
                     <Typography>ID: {id}</Typography>
                     <Typography>Address: {address}, {city}, {state}</Typography>
-                    {Cookies.get('type') == "user" ? (
+                    {Cookies.get('type') === "user" ? (
                         loading ? (
                             <Typography>Duration to reach user's location: Calculating...</Typography>
                         ) : duration !== null ? (
@@ -94,7 +94,7 @@ export function Driver(props) {
                         : <Box></Box>
                     }
                 </Box>
-                {Cookies.get('type') == "user" ?
+                {Cookies.get('type') === "user" ?
                     <Button onClick={selectDriver}>test</Button>
                     :
                     <Box></Box>

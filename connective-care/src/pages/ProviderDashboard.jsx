@@ -18,7 +18,7 @@ const ProviderDashboard = () => {
         if (!Cookies.get('status')) {
             navigate("/SignIn");
         }
-        else if (Cookies.get('type') == "user") {
+        else if (Cookies.get('type') === "user") {
             navigate("/UserDashboard");
         }
         setCompanyName(Cookies.get('name'));
@@ -28,8 +28,8 @@ const ProviderDashboard = () => {
 
     const testfunc = async () => {
         //const dbDrivers = await getAllDrivers(companyName);
-        //setDbDrivers(await getAllDrivers(companyName));
-        const dbDrivers = await getDrivers();
+        setDbDrivers(await getAllDrivers(companyName));
+        //const dbDrivers = await getDrivers();
         const dbDriverAides = await getDriverAides()
         console.log(dbDrivers,dbDriverAides)
     }
@@ -54,7 +54,7 @@ const ProviderDashboard = () => {
         e.preventDefault()
         //setCompanyName(Cookies.get('name'));
         console.log(companyName);
-        if (tabValue == 0) {
+        if (tabValue === 0) {
             const data = {
                 firstName:firstName,
                 lastName:lastName,
@@ -74,7 +74,7 @@ const ProviderDashboard = () => {
             }
             //grab that from provider login session once sessions are working
         }
-        else if (tabValue == 1) {
+        else if (tabValue === 1) {
             const data = {
                 firstName:firstName,
                 lastName:lastName,
@@ -205,7 +205,7 @@ const ProviderDashboard = () => {
                                     onChange={(e) => setLastName(e.target.value)}
                                 />
                                 <InputLabel>
-                                    {tabValue == 0 ?
+                                    {tabValue === 0 ?
                                         "Driver ID Number"
                                         :
                                         "Driver Aid ID Number"
@@ -216,7 +216,7 @@ const ProviderDashboard = () => {
                                 />
                                 {/*are we still planning on adding photos? we need to find a database solution to storing photos if we are*/}
                                 <InputLabel>
-                                    {tabValue == 0 ?
+                                    {tabValue === 0 ?
                                         "Driver Photo"
                                         :
                                         "Driver Aid Photo"

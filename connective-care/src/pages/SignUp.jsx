@@ -17,10 +17,10 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (Cookies.get('type') == "user") {
+        if (Cookies.get('type') === "user") {
             navigate("/UserDashboard");
         }
-        else if (Cookies.get('type') == "provider") {
+        else if (Cookies.get('type') === "provider") {
             navigate("/ProviderDashboard");
         }
     });
@@ -55,7 +55,7 @@ const SignUp = () => {
             alert("Passwords do not match")
             return
         }
-        if (tabValue == 0) {
+        if (tabValue === 0) {
             try{
                 const response = await userSignup({username,password})
                 alert("User has successfully signed up");
@@ -65,7 +65,7 @@ const SignUp = () => {
                 console.log(error)
             }
         }
-        else if (tabValue == 1) {
+        else if (tabValue === 1) {
             try{
                 const response = await providerSignup({username,password})
                 alert("Provider has successfully signed up");
