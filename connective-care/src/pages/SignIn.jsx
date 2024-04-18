@@ -14,10 +14,10 @@ const SignIn = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (Cookies.get('type') == "user") {
+        if (Cookies.get('type') === "user") {
             navigate("/UserDashboard");
         }
-        else if (Cookies.get('type') == "provider") {
+        else if (Cookies.get('type') === "provider") {
             navigate("/ProviderDashboard");
         }
     });
@@ -25,13 +25,13 @@ const SignIn = () => {
     async function submit(e) {
         e.preventDefault()
         //console.log("submit");
-        if (tabValue == 0) {
+        if (tabValue === 0) {
             //sign in funciton here
             //console.log("user");
             const response = await userLogin({username,password});
             navigate("/UserDashboard");
         }
-        else if (tabValue == 1) {
+        else if (tabValue === 1) {
             //add provider sign in here
             //console.log("provider");
             const response = await providerLogin({username,password});

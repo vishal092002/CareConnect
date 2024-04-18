@@ -1,26 +1,26 @@
 export const drivers = [
-    {
-      id: 1,
-      firstName: 'John',
-      lastName: 'Doe',
-      profilePicture: 'a.jpg',
-      companyName: 'ABC Taxi',
-      idNumber: '12345',
-      address: '1 Main Street',
-      city: 'Newark',
-      state: 'NJ'
-    },
-    {
-      id: 2,
-      firstName: 'Alice',
-      lastName: 'Johnson',
-      profilePicture: 'b.jpg',
-      companyName: 'XYZ Rides',
-      idNumber: '67890',
-      address: '10 Fake Road',
-      city: 'Brooklyn',
-      state: 'NY'
-    }
+  {
+    id: 1,
+    firstName: 'John',
+    lastName: 'Doe',
+    profilePicture: 'a.jpg',
+    companyName: 'ABC Taxi',
+    idNumber: '12345',
+    address: 'University Hospital, 150 Bergen Street',
+    city: 'Newark',
+    state: 'NJ'
+  },
+  {
+    id: 2,
+    firstName: 'Alice',
+    lastName: 'Johnson',
+    profilePicture: 'b.jpg',
+    companyName: 'XYZ Rides',
+    idNumber: '67890',
+    address: '374 Park Avenue, Elm Park Village',
+    city: 'East Orange',
+    state: 'NJ'
+  }
   ];
   
   export const driverAides = [

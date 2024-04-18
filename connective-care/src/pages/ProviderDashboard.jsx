@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import { NavBar } from "../components/NavBar";
 import { Driver } from "../components/Driver";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
-import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filterDriverAidesByCompany } from "../data/driverData";
-
+import { createDriver, createDriverAide, getAllDrivers, getAllDriversAides, getDrivers, getDriverAides } from "../components/dbCalls";
 
 const ProviderDashboard = () => {
+
+    const [companyName, setCompanyName] = useState(null);
 
     const navigate = useNavigate();
 
@@ -18,35 +19,82 @@ const ProviderDashboard = () => {
         if (!Cookies.get('status')) {
             navigate("/SignIn");
         }
-        else if (Cookies.get('type') == "user") {
+        else if (Cookies.get('type') === "user") {
             navigate("/UserDashboard");
         }
-    });
+        setCompanyName(Cookies.get('name'));
+        if (companyName != null) {
+            pullDrivers();
+        }
+    }, [companyName]);
 
-    displayAllDrivers(drivers);
+    const [dbDrivers, setDbDrivers] = useState([]);
+    const [dbDriverAides, setDbDriverAides] = useState([]);
 
-    const filteredDrivers = filterDriversByCompany('ABC Taxi');
-    const filteredDriverAides = filterDriverAidesByCompany('ABC Taxi');
+    const testfunc = async () => {
+        //const dbDrivers = await getAllDrivers(companyName);
+        setDbDrivers(await getAllDrivers(companyName));
+        //const dbDrivers = await getDrivers();
+        const dbDriverAides = await getDriverAides()
+        console.log(dbDrivers)
+    }
+
+    const pullDrivers = async () => {
+        setDbDrivers(await getAllDrivers(companyName));
+        setDbDriverAides(await getAllDriversAides(companyName));
+    }
 
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
-    const [companyName, setCompanyName] = useState(null);
+    //const [companyName, setCompanyName] = useState(null);
     const [driverID, setDriverID] = useState(null);
     const [driverPhoto, setDriverPhoto] = useState(null);
     const [address, setAddress] = useState(null);
     const [city, setCity] = useState(null);
     const [state, setState] = useState(null);
 
-    function submit() {
-        setCompanyName(Cookies.get('name'));
-        if (tabValue == 0) {
-            //add driver to db
-            //form gathers everything but companyName
+    async function submit(e) {
+        e.preventDefault()
+        //setCompanyName(Cookies.get('name'));
+        console.log("name " + companyName);
+        if (tabValue === 0) {
+            const data = {
+                firstName:firstName,
+                lastName:lastName,
+                driverID:driverID,
+                picture:driverPhoto,
+                address:address,
+                city:city,
+                state:state,
+                providerUsername:companyName
+            }
+            try{
+                const res = await createDriver(data)
+                alert("Driver Created");
+            }
+            catch(error){
+                console.log(error)
+            }
             //grab that from provider login session once sessions are working
         }
-        else if (tabValue == 1) {
-            //add driver aid to db
-            //form gathers everything but companyName
+        else if (tabValue === 1) {
+            const data = {
+                firstName:firstName,
+                lastName:lastName,
+                driverID:driverID,
+                picture:driverPhoto,
+                address:address,
+                city:city,
+                state:state,
+                providerUsername:companyName
+            }
+            try{
+                const res = await createDriverAide(data)
+                alert("Driver Aide Created");
+            }
+            catch(error){
+                console.log(error)
+            }
             //grab that from provider login session once sessions are working
         }
     }
@@ -160,7 +208,7 @@ const ProviderDashboard = () => {
                                     onChange={(e) => setLastName(e.target.value)}
                                 />
                                 <InputLabel>
-                                    {tabValue == 0 ?
+                                    {tabValue === 0 ?
                                         "Driver ID Number"
                                         :
                                         "Driver Aid ID Number"
@@ -171,7 +219,7 @@ const ProviderDashboard = () => {
                                 />
                                 {/*are we still planning on adding photos? we need to find a database solution to storing photos if we are*/}
                                 <InputLabel>
-                                    {tabValue == 0 ?
+                                    {tabValue === 0 ?
                                         "Driver Photo"
                                         :
                                         "Driver Aid Photo"
@@ -203,7 +251,7 @@ const ProviderDashboard = () => {
                                         type="submit"
                                         variant="contained"
                                     >
-                                        {tabValue == 0 ?
+                                        {tabValue === 0 ?
                                             "Register Driver"
                                             :
                                             "Register Driver Aid"
@@ -218,39 +266,25 @@ const ProviderDashboard = () => {
                 <Box className="driverBox" sx={{
                     width: "50%"
                 }}>
-                    <h1>All Drivers</h1>
-                    {drivers.map(driver => (
+                    <h1>Your Drivers</h1>
+                    {dbDrivers?.map(driver => (
                         <Driver
                             firstName={driver.firstName}
                             lastName={driver.lastName}
-                            company={driver.companyName}
-                            id={driver.idNumber}
-                            photo={driver.profilePicture}
+                            company={driver.provider}
+                            id={driver.driverID}
+                            photo={driver.picture}
                             address={driver.address}
                             city={driver.city}
                             state={driver.state}
                         />
                     ))}
-                    <h1>Driver Details</h1>
-                    <h2>Filtered Drivers</h2>
-                    {filteredDrivers.map(driver => (
-                        <Driver
-                            firstName={driver.firstName}
-                            lastName={driver.lastName}
-                            company={driver.companyName}
-                            id={driver.idNumber}
-                            photo={driver.profilePicture}
-                            address={driver.address}
-                            city={driver.city}
-                            state={driver.state}
-                        />
-                    ))}
-                    <h2>Filtered Driver Aides</h2>
-                    {filteredDriverAides.map(driverAide => (
+                    <h1>Your Driver Aides</h1>
+                    {dbDriverAides?.map(driverAide => (
                         <Driver
                             firstName={driverAide.firstName}
                             lastName={driverAide.lastName}
-                            company={driverAide.companyName}
+                            company={driverAide.provider}
                             id={driverAide.idNumber}
                             photo={driverAide.profilePicture}
                             address={driverAide.address}
