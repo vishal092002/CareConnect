@@ -6,6 +6,7 @@ import { Driver } from "../components/Driver";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
 import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filterDriverAidesByCompany } from "../data/driverData";
 import { updateUser, getDrivers, getDriverAides } from "../components/dbCalls";
+import IMG_1146 from "../images/IMG_1146.jpg"
 
 
 const UserDashboard = () => {
@@ -21,7 +22,7 @@ const UserDashboard = () => {
         else if (Cookies.get('type') === "provider") {
             navigate("/ProviderDashboard");
         }
-        pullDrivers();
+        //pullDrivers();
     });
 
     const [currentLocation, setCurrentLocation] = useState({
@@ -128,15 +129,22 @@ const UserDashboard = () => {
                 }}>
                     <Typography 
                         variant="h2" 
-                        paddingBottom={"8vh"}
+                        paddingBottom={"3vh"}
                     >
                         Welcome, {Cookies.get('name')}   
+                    </Typography>
+                    <Typography
+                        variant="h4"
+                        paddingBottom={"3vh"}
+                    >
+                        Select a driver.
                     </Typography>
                     {currentLocation.address ? (
                         <p>{currentLocation.address}</p>
                     ) : (
                         <p>Fetching user's current address...</p>
                     )}
+                    <img src={IMG_1146} width="400px" height="400px" />
                     {/*<Box className="addressBox" sx={{
                         width: "50%",
                         height: "50%",
@@ -195,6 +203,7 @@ const UserDashboard = () => {
                 <Box className="driverBox" sx={{
                     width: "50%"
                 }}>
+                    <Button onClick={pullDrivers} variant="contained">Refresh List</Button>
                     <h1>All Drivers</h1>
                     {dbDrivers?.map(driver => (
                         <Driver
