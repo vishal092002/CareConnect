@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { NavBar } from "../components/NavBar";
-import { Driver } from "../components/Driver";
-import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
-import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filterDriverAidesByCompany } from "../data/driverData";
-import { updateUser, getDriverById } from "../components/dbCalls";
+import { Box, Button, InputLabel, TextField, Typography } from "@mui/material";
+import { updateUser } from "../components/dbCalls";
 
 
 const RequestForm = () => {
+
+    const [username, setUsername] = useState(null);
 
     const navigate = useNavigate();
 
@@ -21,8 +20,10 @@ const RequestForm = () => {
         else if (Cookies.get('type') === "provider") {
             navigate("/ProviderDashboard");
         }
-        setUsername(Cookies.get('name'));
-    });
+        if (username === null) {
+            setUsername(Cookies.get('name'));
+        }
+    }, [username]);
 
     const [destinationAddress,setDestinationAddress] = useState(null);
     const [destinationCity, setDestinationCity] = useState(null);
@@ -34,7 +35,6 @@ const RequestForm = () => {
     const [communication, setCommunication] = useState(null);
     const [caregiver, setCaregiver] = useState(null);
     const [other, setOther] = useState(null);
-    const [username, setUsername] = useState(null);
     const [address, setAddress] = useState(null);
     const [city, setCity] = useState(null);
     const [state, setState] = useState(null);

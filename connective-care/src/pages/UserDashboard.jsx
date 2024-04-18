@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { NavBar } from "../components/NavBar";
 import { Driver } from "../components/Driver";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
-import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filterDriverAidesByCompany } from "../data/driverData";
 import { updateUser, getDrivers, getDriverAides } from "../components/dbCalls";
 import IMG_1146 from "../images/IMG_1146.jpg"
 
 
 const UserDashboard = () => {
+
+    const [username,setUsername] = useState(null);
 
     const navigate = useNavigate();
 
@@ -22,8 +23,13 @@ const UserDashboard = () => {
         else if (Cookies.get('type') === "provider") {
             navigate("/ProviderDashboard");
         }
-        //pullDrivers();
-    });
+        if (username === null) {
+            setUsername(Cookies.get('name'));
+        }
+        else {
+            pullDrivers();
+        }
+    }, [username]);
 
     const [currentLocation, setCurrentLocation] = useState({
         address: '',
@@ -74,7 +80,6 @@ const UserDashboard = () => {
 
     //we are using separate fields for the live input and the submitted input
     //use the submitted input for api calls since incomplete inputs from live vars will cause problems
-    const [username,setUsername] = useState(null);
     const [addressInput, setAddressInput] = useState(null);
     const [cityInput, setCityInput] = useState(null);
     const [stateInput, setStateInput] = useState(null);
@@ -144,7 +149,7 @@ const UserDashboard = () => {
                     ) : (
                         <p>Fetching user's current address...</p>
                     )}
-                    <img src={IMG_1146} width="400px" height="400px" />
+                    <img src={IMG_1146} width="400px" height="400px" alt="" />
                     {/*<Box className="addressBox" sx={{
                         width: "50%",
                         height: "50%",
@@ -203,7 +208,6 @@ const UserDashboard = () => {
                 <Box className="driverBox" sx={{
                     width: "50%"
                 }}>
-                    <Button onClick={pullDrivers} variant="contained">Refresh List</Button>
                     <h1>All Drivers</h1>
                     {dbDrivers?.map(driver => (
                         <Driver

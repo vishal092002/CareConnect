@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import { NavBar } from "../components/NavBar";
 import { Driver } from "../components/Driver";
 import { Box, Button, InputLabel, TextField, Typography, Tabs, Tab } from "@mui/material";
-import { drivers, driverAides, displayAllDrivers, filterDriversByCompany, filterDriverAidesByCompany } from "../data/driverData";
 import { createDriver, createDriverAide, getAllDrivers, getAllDriversAides, getDrivers, getDriverAides } from "../components/dbCalls";
 
 const ProviderDashboard = () => {
+
+    const [companyName, setCompanyName] = useState(null);
 
     const navigate = useNavigate();
 
@@ -25,7 +26,7 @@ const ProviderDashboard = () => {
         if (companyName != null) {
             pullDrivers();
         }
-    });
+    }, [companyName]);
 
     const [dbDrivers, setDbDrivers] = useState([]);
     const [dbDriverAides, setDbDriverAides] = useState([]);
@@ -43,14 +44,9 @@ const ProviderDashboard = () => {
         setDbDriverAides(await getAllDriversAides(companyName));
     }
 
-    //displayAllDrivers(drivers);
-
-    const filteredDrivers = filterDriversByCompany('ABC Taxi');
-    const filteredDriverAides = filterDriverAidesByCompany('ABC Taxi');
-
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
-    const [companyName, setCompanyName] = useState(null);
+    //const [companyName, setCompanyName] = useState(null);
     const [driverID, setDriverID] = useState(null);
     const [driverPhoto, setDriverPhoto] = useState(null);
     const [address, setAddress] = useState(null);
@@ -255,7 +251,7 @@ const ProviderDashboard = () => {
                                         type="submit"
                                         variant="contained"
                                     >
-                                        {tabValue == 0 ?
+                                        {tabValue === 0 ?
                                             "Register Driver"
                                             :
                                             "Register Driver Aid"

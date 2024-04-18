@@ -302,6 +302,7 @@ router.get("/getDriver/:driverId", async(req, res) => {
 
 //get all drivers from driver db specifically
 router.get('/getDrivers', async (req, res) => {
+  console.log("in get drivers");
   try {
       const db = await connection(DbName);
       const Collection = db.collection(driverCollection);
@@ -318,7 +319,7 @@ router.get('/getAllDrivers', async (req, res) => {
   console.log(username)
   const db = await connection(DbName); 
   try {
-      //const PCollection = db.collection(providerCollection); 
+      const PCollection = db.collection(providerCollection); 
       
       
       const provider = await PCollection.findOne({ username: username });

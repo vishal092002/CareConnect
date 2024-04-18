@@ -72,7 +72,7 @@ const Home = () => {
                         <Typography variant="h1">Our Mission</Typography>
                         <Typography variant="h6">{mission}</Typography>
                     </Box>
-                    <img src={IMG_1140} width="400px" height="400px" />
+                    <img src={IMG_1140} width="400px" height="400px" alt="" />
                 </Box>
                 <Box className="problemBox" sx={{
                     width: "80%",
@@ -91,7 +91,7 @@ const Home = () => {
                         <Typography variant="h1">A Difficult Challenge</Typography>
                         <Typography variant="h6">{problem}</Typography>
                     </Box>
-                    <img src={IMG_1142} width="400px" height="400px" />
+                    <img src={IMG_1142} width="400px" height="400px" alt="" />
                 </Box>
                 <Box className="solutionBox" sx={{
                     width: "80%",
@@ -110,7 +110,7 @@ const Home = () => {
                         <Typography variant="h1">What We Provide</Typography>
                         <Typography variant="h6">{solution_edit}</Typography>
                     </Box>
-                    <img src={IMG_1149} width="400px" height="400px" />
+                    <img src={IMG_1149} width="400px" height="400px" alt="" />
                 </Box>
                 <Box className="summaryBox" sx={{
                     width: "80%",
@@ -129,7 +129,7 @@ const Home = () => {
                         <Typography variant="h1">Stay Connected</Typography>
                         <Typography variant="h6">{summary}</Typography>
                     </Box>
-                    <img src={IMG_1151} width="400px" height="400px" />
+                    <img src={IMG_1151} width="400px" height="400px" alt="" />
                 </Box>
                 <Box height={"4vh"} />
             </Box>
